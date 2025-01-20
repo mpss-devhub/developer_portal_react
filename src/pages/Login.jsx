@@ -1,7 +1,7 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,17 +12,26 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { signInWithEmailAndPassword } from "@firebase/auth";
+import { auth } from "../config/firebaseConfig";
 
 const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email').nonempty('Email is required'),
-  password: z.string().min(6, 'Password must be at least 6 characters long').nonempty('Password is required'),
+  email: z
+    .string()
+    .email("Please enter a valid email")
+    .nonempty("Email is required"),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters long")
+    .nonempty("Password is required"),
 });
 
 const defaultValues = {
-  email: '',
-  password: '',
+  email: "",
+  password: "",
+  terms: false,
 };
 
 function Login() {
@@ -31,8 +40,14 @@ function Login() {
     defaultValues,
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const { email, password } = data;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      alert("Login successful!");
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
@@ -48,9 +63,16 @@ function Login() {
                 <FormItem>
                   <FormLabel className="text-gray-700">Email</FormLabel>
                   <FormControl>
-                    <Input id="email" type="email" placeholder="Enter your email" {...field} />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      {...field}
+                    />
                   </FormControl>
-                  <FormMessage>{form.formState.errors.email?.message}</FormMessage>
+                  <FormMessage>
+                    {form.formState.errors.email?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
@@ -62,29 +84,61 @@ function Login() {
                 <FormItem>
                   <FormLabel className="text-gray-700">Password</FormLabel>
                   <FormControl>
-                    <Input id="password" type="password" placeholder="Enter your password" {...field} />
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="Enter your password"
+                      {...field}
+                    />
                   </FormControl>
-                  <FormMessage>{form.formState.errors.password?.message}</FormMessage>
+                  <FormMessage>
+                    {form.formState.errors.password?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
 
-            <a className="text-sky-600 cursor-pointer text-sm">Forgot password?</a>
+            {/* Terms and Conditions */}
+            <FormField
+              name="terms"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox id="terms" {...field} />
+                    <Label
+                      htmlFor="terms"
+                      className="text-gray-500 text-sm font-normal"
+                    >
+                      Accept Terms and Conditions
+                    </Label>
+                  </div>
+                  <FormMessage>
+                    {form.formState.errors.terms?.message}
+                  </FormMessage>
+                </FormItem>
+              )}
+            />
 
-            <div className="flex items-center space-x-2">
-              <Checkbox id="terms" />
-              <Label htmlFor="terms" className="text-gray-500 text-sm font-normal">Accept Terms and Conditions</Label>
-            </div>
+            {/* Forgot Password */}
+            <a
+              href="/forgot-password"
+              className="text-sky-600 cursor-pointer text-sm"
+            >
+              Forgot password?
+            </a>
 
             {/* Submit Button */}
             <Button type="submit" className="w-full">
               Log In
             </Button>
 
+            {/* Sign Up Link */}
             <p className="text-gray-500 text-sm">
-              Don't have an account? <a className="text-sky-600 cursor-pointer" href='/signup'>Sign Up</a>
+              Don't have an account?{" "}
+              <a className="text-sky-600 cursor-pointer" href="/signup">
+                Sign Up
+              </a>
             </p>
-
           </form>
         </Form>
       </div>
