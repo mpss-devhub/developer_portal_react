@@ -21,15 +21,15 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import CryptoJS from "crypto-js";
+import { banks } from "./array/DirectDoPayArray";
 
 const DirectDoPay = ({
   paymentToken: initialPaymentToken,
   accessToken: initialAccessToken,
-  paymentCodes,
 }) => {
   const [paymentToken, setPaymentToken] = useState(initialPaymentToken);
   const [accessToken, setAccessToken] = useState(initialAccessToken);
-  const [paymentCode, setPaymentCode] = useState(paymentCodes);
+  const [paymentCode, setPaymentCode] = useState("");
   const [encryptedString, setEncryptedString] = useState("");
   const [dataKey, setDataKey] = useState("X3RZ1WKA6K84BUW2");
   const [payData, setPayData] = useState({
@@ -69,6 +69,7 @@ const DirectDoPay = ({
         {
           paymentToken: paymentToken,
           payData: encryptedData,
+          paymentCode: paymentCode,
         },
         {
           headers: {
@@ -128,14 +129,19 @@ const DirectDoPay = ({
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label>Payment Code:</Label>
-                <Select>
+                <Select
+                  value={paymentCode}
+                  onValueChange={(value) => setPaymentCode(value)}
+                >
                   <SelectTrigger>
-                    <SelectValue placeholder="Theme" />
+                    <SelectValue placeholder="Choose Payment Code" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="light">Light</SelectItem>
-                    <SelectItem value="dark">Dark</SelectItem>
-                    <SelectItem value="system">System</SelectItem>
+                    {banks.map((code) => (
+                      <SelectItem key={code.value} value={code.value}>
+                        {code.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>

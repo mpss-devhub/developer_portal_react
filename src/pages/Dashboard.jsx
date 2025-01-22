@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardDescription,
 } from "@/components/ui/card";
-import ProjectCreateAlert from "../atomic/ProjectCreateAlert";
+import ProjectCreateAlert from "../atomic/alert/ProjectCreateAlert";
 
 const Dashboard = () => {
 
