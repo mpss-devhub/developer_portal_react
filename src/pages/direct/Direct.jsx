@@ -4,9 +4,10 @@ import DirectToken from "./include/DirectToken";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DirectAvailable from "./include/DirectAvailable";
 import DirectDoPay from "./include/DirectDoPay";
+import DirectInQuery from "./include/DirectInQuery";
 
 export default function Direct() {
-  const [activeTab, setActiveTab] = useState("requestToken");
+  const [activeTab, setActiveTab] = useState("doPay");
   const [paymentToken, setPaymentToken] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [paymentList, setPaymentList] = useState(null);
@@ -24,7 +25,7 @@ export default function Direct() {
 
   return (
     <Layout>
-      <div className="px-6 mt-2">
+      <div className="px-6 my-4">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="w-full justify-start">
             <TabsTrigger value="requestToken">Request Token</TabsTrigger>
@@ -54,7 +55,7 @@ export default function Direct() {
           </TabsContent>
 
           <TabsContent value="paymentInQuery" className="w-full">
-            <p>Payment In Query functionality will go here.</p>
+            <DirectInQuery />
           </TabsContent>
         </Tabs>
       </div>

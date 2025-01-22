@@ -70,7 +70,7 @@ const DirectToken = ({requestToken}) => {
       <CardHeader>
         <CardTitle>
           <div className="flex items-center">
-            Request payment token API
+            Request Payment Token API
             <DirectTokenAlert />
           </div>
         </CardTitle>
@@ -138,7 +138,7 @@ const DirectToken = ({requestToken}) => {
         </div>
       </CardContent>
       <CardFooter className="flex justify-start gap-4">
-        <Button onClick={encodeToken}>Encode</Button>
+        <Button onClick={encodeToken}>JWT Encode</Button>
         <Button onClick={makeApiRequest} disabled={!encodedToken}>
           Send Request
         </Button>

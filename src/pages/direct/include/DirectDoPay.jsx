@@ -22,6 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { banks } from "./array/DirectDoPayArray";
+import DirectDoPayAlert from "../../../atomic/alert/DirectDoPayAlert";
 
 const DirectDoPay = ({
   paymentToken: initialPaymentToken,
@@ -87,7 +88,10 @@ const DirectDoPay = ({
     <Card>
       <CardHeader>
         <CardTitle>
-          <div className="flex items-center">Do Payment API</div>
+          <div className="flex items-center">
+            Do Payment API
+            <DirectDoPayAlert />
+          </div>
         </CardTitle>
         <CardDescription>
           Merchant can use this API to make payment request transactions between

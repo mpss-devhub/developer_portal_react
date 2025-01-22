@@ -12,8 +12,83 @@ export const invoices = [
     description: "Content-Type: application/json",
   },
   {
+    name: "Authorization",
+    description: "Bearer { access token from request token API }",
+  },
+  {
     name: "Accept format",
     description: "JSON",
+  },
+];
+
+export const headers = [
+  {
+    name: "URL",
+    description: "{base_url}/getAvailablePaymentsList",
+  },
+  {
+    name: "Method",
+    description: "POST",
+  },
+  {
+    name: "Header",
+    description: "Content-Type: application/json",
+  },
+  {
+    name: "Accept format",
+    description: "JSON",
+  },
+];
+
+export const headerDoPay = [
+  {
+    name: "URL",
+    description: "{base_url}/dopay",
+  },
+  {
+    name: "Method",
+    description: "POST",
+  },
+  {
+    name: "Header",
+    description: "Content-Type: application/json",
+  },
+  {
+    name: "Accept format",
+    description: "JSON",
+  },
+];
+
+export const doPayRequestBody = [
+  {
+    name: "paymentCode",
+    type: "char",
+    required: "Y",
+    description:
+      "Unique payment code which is provided by Octoverse system. It can review from available payment api.",
+  },
+  {
+    name: "paymentToken",
+    type: "char",
+    required: "Y",
+    description:
+      "Payment token which is received from request payment token API",
+  },
+  {
+    name: "payData",
+    type: "char",
+    required: "Y",
+    description: "Payload data. See detail in below section 6.3.4",
+  },
+];
+
+export const availableRequestBody = [
+  {
+    name: "paymentToken",
+    type: "char",
+    required: "Y",
+    description:
+      "Payment token which is received from request payment token API.",
   },
 ];
 
@@ -98,5 +173,97 @@ export const responseParameter = [
     name: "data",
     DataType: "char",
     description: "Response jwt encoded data as payload request data",
+  },
+];
+
+export const responseAvailableParameter = [
+  {
+    name: "respCode",
+    DataType: "char",
+    description: "Response code. Eg, 0000, 0001 ..",
+  },
+  {
+    name: "respMsg",
+    DataType: "char",
+    description: "Response message description: Success or Failed",
+  },
+  {
+    name: "data",
+    DataType: "char",
+    description:
+      "Data of merchant information and available payment subscribe listing for each payment type",
+  },
+];
+export const responseDoPayParameter = [
+  {
+    name: "respCode",
+    DataType: "char",
+    description: "Response code. Eg, 0000, 0001 ..",
+  },
+  {
+    name: "respMsg",
+    DataType: "char",
+    description: "Response message description",
+  },
+  {
+    name: "data",
+    DataType: "char",
+    description:
+      "Payment information for your next step to proceed. Here is a sample,redirectUrl : for web payment redirection ,qrImg : for scan QR,deeplink : for CB pin verification,Text message for push notification pay request",
+  },
+];
+
+export const doPayDataParameter = [
+  {
+    name: "phoneNo",
+    type: "int",
+    length: "20",
+    required: "Y",
+    description: "Wallet/Pay registration mobile number",
+  },
+  {
+    name: "name",
+    type: "char",
+    length: "20",
+    required: "N",
+    description: "Wallet/Pay register name",
+  },
+  {
+    name: "email",
+    type: "char",
+    length: "15",
+    required: "N",
+    description: "Wallet/Pay register email address",
+  },
+  {
+    name: "number",
+    type: "int",
+    length: "5",
+    required: "N",
+    description: "Card number is required (for Visa/Master global payment)",
+  },
+  {
+    name: "expiryMonth",
+    type: "int",
+    length: "255",
+    required: "N",
+    description:
+      "Card expiry month is required (for Visa/Master global payment)",
+  },
+  {
+    name: "expiryYear",
+    type: "int",
+    length: "255",
+    required: "N",
+    description:
+      "Card expiry year is required (for Visa/Master global payment)",
+  },
+  {
+    name: "securityCode",
+    type: "int",
+    length: "150",
+    required: "N",
+    description:
+      "Card security code is required (for Visa/Master global payment)",
   },
 ];
