@@ -17,9 +17,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import DirectTokenAlert from "../../../atomic/alert/direct/DirectTokenAlert";
-const DirectToken = ({requestToken}) => {
+const RedirectToken = ({ requestToken }) => {
   const [payload, setPayload] = useState({
-    merchantID: "MPSSD0000000084",
+    merchantID: "MPSSD0000000083",
     invoiceNo: "MPSS00000001",
     amount: 1500,
     currencyCode: "MMK",
@@ -28,7 +28,7 @@ const DirectToken = ({requestToken}) => {
   });
 
   const [secretKey, setSecretKey] = useState(
-    "qTGInMWK8QULop8YbBlBBOLB85K6Q9vp33sRd8cufvY"
+    "JHjRmhCyMAcVGXYuuWyyoy2m_Las8orNUhum60yThQI"
   );
   const [encodedToken, setEncodedToken] = useState("");
   const [apiResponse, setApiResponse] = useState(null);
@@ -45,6 +45,29 @@ const DirectToken = ({requestToken}) => {
     setEncodedToken(token);
   };
 
+  const decodeToken = () => {
+    if (apiResponse.respCode === "0000") {
+      const decodedData = jwtDecode(apiResponse.data);
+      if (
+        typeof decodedData === "object" &&
+        decodedData !== null &&
+        "paymenturl" in decodedData
+      ) {
+        setDecodedUrl(decodedData.paymenturl);
+      }
+    }
+  };
+
+  const clear = () => {
+    setEncodedToken("");
+    setApiResponse(null);
+    setDecodedUrl("");
+  };
+
+  const goToRedirectOctoverse = () => {
+    window.open(decodedUrl, "_blank");
+  };
+
   const makeApiRequest = async () => {
     try {
       const response = await axios.post(
@@ -55,11 +78,6 @@ const DirectToken = ({requestToken}) => {
       );
 
       setApiResponse(response.data);
-
-      if (response.data.respCode === "0000") {
-        const decodedData = jwtDecode(response.data.data);
-        setDecodedUrl(decodedData);
-      }
     } catch (error) {
       console.error("API request failed:", error);
     }
@@ -75,11 +93,8 @@ const DirectToken = ({requestToken}) => {
           </div>
         </CardTitle>
         <CardDescription>
-          Merchant users must be requested this token API to get authorization
-          token and payment token.
-          <br />
-          Below are the parameters to get the encoded pay data with a secret key
-          for your token API request.
+          Merchant users must request this token API to get authorization token
+          and payment URL.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -114,23 +129,11 @@ const DirectToken = ({requestToken}) => {
               )}
               {decodedUrl && (
                 <div>
-                  <Label>Decoded Access Token & Payment Token</Label>
+                  <Label>Decoded Payment Url</Label>
                   <Textarea
                     value={JSON.stringify(decodedUrl, null, 2)}
                     readOnly
                   />
-                </div>
-              )}
-              {decodedUrl && (
-                <div>
-                  <Label>Access Token</Label>
-                  <Input value={decodedUrl.accessToken} readOnly />
-                </div>
-              )}
-              {decodedUrl && (
-                <div>
-                  <Label>Payment Token</Label>
-                  <Input value={decodedUrl.paymentToken} readOnly />
                 </div>
               )}
             </div>
@@ -138,24 +141,25 @@ const DirectToken = ({requestToken}) => {
         </div>
       </CardContent>
       <CardFooter className="flex justify-start gap-4">
+        <Button variant="secondary" onClick={clear}>
+          Clear
+        </Button>
         <Button onClick={encodeToken}>JWT Encode</Button>
         <Button onClick={makeApiRequest} disabled={!encodedToken}>
           Send Request
         </Button>
         <Button
-          disabled={!decodedUrl}
-          onClick={() =>
-            requestToken({
-              accessToken: decodedUrl.accessToken,
-              paymentToken: decodedUrl.paymentToken,
-            })
-          }
+          onClick={decodeToken}
+          disabled={apiResponse?.respCode !== "0000"}
         >
-          Next
+          JWT Decode
+        </Button>
+        <Button onClick={goToRedirectOctoverse} disabled={!decodedUrl}>
+          Go to Octoverse
         </Button>
       </CardFooter>
     </Card>
   );
 };
 
-export default DirectToken;
+export default RedirectToken;

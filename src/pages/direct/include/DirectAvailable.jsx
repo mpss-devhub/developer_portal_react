@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
+import DirectAvailableAlert from "../../../atomic/alert/direct/DirectAvailableAlert";
 
 const DirectAvailable = ({
   getAvailablePaymentsList,
@@ -48,6 +49,7 @@ const DirectAvailable = ({
         <CardTitle>
           <div className="flex items-center">
             Get Available Payment List API
+            <DirectAvailableAlert />
           </div>
         </CardTitle>
         <CardDescription>

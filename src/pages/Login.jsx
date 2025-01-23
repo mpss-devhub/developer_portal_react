@@ -16,6 +16,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { signInWithEmailAndPassword } from "@firebase/auth";
 import { auth } from "../config/firebaseConfig";
+import { login } from "../store/authSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const loginSchema = z.object({
   email: z
@@ -34,7 +37,9 @@ const defaultValues = {
   terms: false,
 };
 
-function Login() {
+export const Login = () => {
+  const dispatch = useDispatch(); // Corrected: Removed destructuring
+  const navigate = useNavigate(); // Corrected: Removed destructuring
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues,
@@ -43,8 +48,18 @@ function Login() {
   const onSubmit = async (data) => {
     const { email, password } = data;
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      alert("Login successful!");
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      dispatch(
+        login({
+          uid: userCredential.user.uid,
+          email: userCredential.user.email,
+        })
+      );
+      navigate("/");
     } catch (error) {
       alert(error.message);
     }
@@ -56,7 +71,6 @@ function Login() {
         <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            {/* Email Field */}
             <FormField
               name="email"
               render={({ field }) => (
@@ -76,8 +90,6 @@ function Login() {
                 </FormItem>
               )}
             />
-
-            {/* Password Field */}
             <FormField
               name="password"
               render={({ field }) => (
@@ -97,8 +109,6 @@ function Login() {
                 </FormItem>
               )}
             />
-
-            {/* Terms and Conditions */}
             <FormField
               name="terms"
               render={({ field }) => (
@@ -118,21 +128,15 @@ function Login() {
                 </FormItem>
               )}
             />
-
-            {/* Forgot Password */}
             <a
               href="/forgot-password"
               className="text-sky-600 cursor-pointer text-sm"
             >
               Forgot password?
             </a>
-
-            {/* Submit Button */}
             <Button type="submit" className="w-full">
               Log In
             </Button>
-
-            {/* Sign Up Link */}
             <p className="text-gray-500 text-sm">
               Don't have an account?{" "}
               <a className="text-sky-600 cursor-pointer" href="/signup">
@@ -144,6 +148,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

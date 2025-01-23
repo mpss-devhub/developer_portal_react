@@ -8,14 +8,13 @@ import {
   CardHeader,
   CardDescription,
 } from "@/components/ui/card";
-import ProjectCreateAlert from "../atomic/ProjectCreateAlert";
+import ProjectCreateAlert from "../atomic/alert/ProjectCreateAlert";
 
 const Dashboard = () => {
 
   return (
     <Layout>
       <div className="px-6 mt-6 space-y-6">
-        {/* Notification Banner */}
         <Card>
           <CardHeader>
             <CardDescription>
@@ -31,8 +30,6 @@ const Dashboard = () => {
             </CardDescription>
           </CardHeader>
         </Card>
-
-        {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <Button variant="outline" className="flex items-center gap-2">
             <Search size={16} />
@@ -41,7 +38,6 @@ const Dashboard = () => {
           <ProjectCreateAlert />
         </div>
 
-        {/* Projects Section */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold border-b-2 pb-2">
             Created Projects

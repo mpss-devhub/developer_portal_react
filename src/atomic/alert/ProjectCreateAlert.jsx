@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -23,6 +22,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore"; // Import Firestore methods
+import { db } from "../../config/firebaseConfig";
+
 const ProjectCreateAlert = () => {
   const form = useForm({
     defaultValues: {
@@ -31,10 +33,20 @@ const ProjectCreateAlert = () => {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log("Form Submitted:", data);
+  const onSubmit = async (data) => {
+    try {
+      console.log(data);
+      const docRef = await addDoc(collection(db, "projects"), {
+        projectName: data.projectName,
+        integrationType: data.integrationType,
+        createdAt: new Date().toISOString(),
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      alert("Error creating project.");
+    }
   };
-  
+
   return (
     <AlertDialog>
       <AlertDialogTrigger>
@@ -85,7 +97,7 @@ const ProjectCreateAlert = () => {
                       onChange={field.onChange}
                       className="space-y-4"
                     >
-                      <div className="flex items-center space-x-2 ">
+                      <div className="flex items-center space-x-2">
                         <RadioGroupItem id="direct" value="direct" />
                         <FormLabel htmlFor="direct">
                           Direct API Integration
