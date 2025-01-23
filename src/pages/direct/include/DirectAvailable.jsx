@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
-import DirectAvailableAlert from "../../../atomic/alert/DirectAvailableAlert";
+import DirectAvailableAlert from "../../../atomic/alert/direct/DirectAvailableAlert";
 
 const DirectAvailable = ({
   getAvailablePaymentsList,

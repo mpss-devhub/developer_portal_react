@@ -21,6 +21,54 @@ export const invoices = [
   },
 ];
 
+export const paymentInQueryRequest = [
+  {
+    name: "payData",
+    type: "char",
+    required: "Y",
+    description:
+      "Two payload data required to encode with JWT method.Eg, { 'merchantID': 'MID00001', 'invoiceNo': 'INV202210261020' }  ",
+  },
+];
+
+export const invoicesWithoutToken = [
+  {
+    name: "URL",
+    description: "{base_url}/auth/token",
+  },
+  {
+    name: "Method",
+    description: "POST",
+  },
+  {
+    name: "Header",
+    description: "Content-Type: application/json",
+  },
+  {
+    name: "Accept format",
+    description: "JSON",
+  },
+];
+
+export const responseParameterQuery = [
+  {
+    name: "respCode",
+    DataType: "char",
+    description: "Response code. Eg, 0000, 0001 ..",
+  },
+  {
+    name: "respMsg",
+    DataType: "char",
+    description: "Response message description",
+  },
+  {
+    name: "data",
+    DataType: "char",
+    description:
+      "Use AES-128-ECB encryption algorithm to get the detail of payment transaction parameters",
+  },
+];
+
 export const headers = [
   {
     name: "URL",

@@ -21,12 +21,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  invoices,
+  invoicesWithoutToken,
   requestParameter,
   responseParameter,
-} from "../../pages/direct/include/array/DirectTokenArray";
+} from "../../../pages/direct/include/array/DirectTokenArray";
 
-const DirectTokenAlert = () => {
+const RedirectTokenAlert = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
@@ -40,8 +40,8 @@ const DirectTokenAlert = () => {
           </div>
         </AlertDialogHeader>
         <p className="text-sm">
-          Merchant users must request this token API to get an authorization
-          token and payment token.
+          Merchant users must request this token API to get authorization token
+          and payment URL.
         </p>
         <Table className="min-w-full text-xs sm:text-sm md:text-base">
           <TableHeader>
@@ -51,7 +51,7 @@ const DirectTokenAlert = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {invoices.map((invoice) => (
+            {invoicesWithoutToken.map((invoice) => (
               <TableRow key={invoice.invoice}>
                 <TableCell className="font-medium">{invoice.name}</TableCell>
                 <TableCell>{invoice.description}</TableCell>
@@ -118,7 +118,9 @@ const DirectTokenAlert = () => {
           <p className="py-2 text-sm">
             {"{"} <span className="text-yellow-400">"PayData"</span>:
             <span className="whitespace-pre-wrap break-words">
-              "eyJhbGciOiJIUzI1NiJ9.eyJtZXJjaGFudElEIjoiS0hJTlMwMDAwMDAwMTczIiwiaW52b2ljZU5vIjoiSU5WMDAwMDQzMzAiLCJhbW91bnQiOiIxMDAwIiwiY3VycmVuY3lDb2RlIjoiTU1LIiwiYmFja2VuZFVybCI6Imh0dHBzOi8vbXBzc3VhdC5nbGl0Y2gubWUvb2N0b3ZlcnNlL3Jlc3VsdCJ9.RX9j47Vox0RptenFAUg_UQ9gUE5sw2uc1MNAB7KvuAM"
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjaGFudElEIjoiTUlEMDAwMDEiLCJpb
+              nZvaWNlTm8iOiJJTlYwMDAwMjM2MCIsImFtb3VudCI6IjI1MDAiLCJjdXJyZW5jeUNvZ
+              GUiOiJNTUsifQ.TcPg2RoF5YiRbO6YYJYQCxuZoNmeblNj8nqnX_JTVO8"
             </span>
             <br />
             {"}"}
@@ -142,14 +144,20 @@ const DirectTokenAlert = () => {
             <br />
             <span className="text-yellow-400">"data"</span>:{" "}
             <span className="whitespace-pre-wrap break-words">
-              "eyJhbGciOiJIUzI1NiJ9.eyJwYXltZW50VG9rZW4iOiJ4OE96dUlCQklnWWJ6NHY1OVJhOGVEKzliQW5PTFZaK0s0aDVRWEM0VEdJPSIsImFjY2Vzc1Rva2VuIjoiZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKcGMzTWlPaUp3WVhsdFpXNTBMV0Z3YVMxbmR5MXplWE4wWlcwaUxDSnpkV0lpT2lKTFNFbE9VekF3TURBd01EQXhOek1pTENKbGVIQWlPakUzTXpNNE9UTTFNVEY5LnVnNllYSUViaDgxTWdhSEQ2UVliZnZuNXg1R2pZelduS21wbnBCa282MzQifQ.R9pZOaD2fcsFjMO1mdRm2oZwyWEg8Hwqz4l6jibtkl7"
+              "eyJhbGciOiJIUzI1NiJ9.eyJwYXltZW50dXJsIjoiaHR0cHM6Ly90ZXN0Lm9jdG92ZXJzZS5
+              jb20ubW0vcGF5bWVudD9pdG9rZW49ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKcGMzT
+              WlPaUp3WVhsdFpXNTBMV0Z3YVMxbmR5MXplWE4wWlcwaUxDSnpkV0lpT2lKVlNV
+              UXdNREF3TVNJc0ltVjRjQ0k2TVRZMk1UWTJOVGsyTTMwLkdScy1pYk16cTgtYlhIUE
+              VBWjVIS0pHVE9JQVhXRU1udTEyLWRTVFFzZVUmcHRva2VuPVlobHdHd04yUyUyRj
+              MyanhGVmVqZUJTRlgwaHZiOEpaSFpybktROXlOalVNOCUzRCJ9.dNT8NgTjNJJVgeNec
+              rmC-kZ4raxr2mwp2EojgahT-tE"
             </span>
             ,<br />
             {"}"}
           </p>
         </div>
         <p>
-          You need to decode data to get payment token and access token in{" "}
+          You need to decode data to get payment url to proceed your payment{" "}
           <a href="https://jwt.io/" className="text-blue-600 underline">
             JWT
           </a>
@@ -163,4 +171,4 @@ const DirectTokenAlert = () => {
   );
 };
 
-export default DirectTokenAlert;
+export default RedirectTokenAlert;

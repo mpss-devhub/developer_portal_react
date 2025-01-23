@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -19,12 +18,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  headerDoPay,
-  doPayRequestBody,
-  responseDoPayParameter,
-  doPayDataParameter,
-} from "../../pages/direct/include/array/DirectTokenArray";
-const DirectDoPayAlert = () => {
+  headers,
+  availableRequestBody,
+  responseAvailableParameter,
+} from "../../../pages/direct/include/array/DirectTokenArray";
+
+const DirectAvailableAlert = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
@@ -33,14 +32,14 @@ const DirectDoPayAlert = () => {
       <AlertDialogContent className="max-h-[90vh] max-w-[100vh] overflow-y-auto">
         <AlertDialogHeader>
           <div className="flex items-center justify-between">
-            <AlertDialogTitle>Do Payment API</AlertDialogTitle>
+            <AlertDialogTitle>Get Available Payment List API</AlertDialogTitle>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
           </div>
         </AlertDialogHeader>
         <p className="text-sm">
-          Merchant can use this API to make payment request transactions between
-          MPSS and Merchant system after receiving the access and payment token
-          data from the request payment token API.
+          After receiving the payment token data from the request token API, the
+          merchant can call this API to review the merchant subscribed payment
+          list and related payment code.
         </p>{" "}
         <Table className="min-w-full text-xs sm:text-sm md:text-base">
           <TableHeader>
@@ -50,7 +49,7 @@ const DirectDoPayAlert = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {headerDoPay.map((invoice) => (
+            {headers.map((invoice) => (
               <TableRow key={invoice.invoice}>
                 <TableCell className="font-medium">{invoice.name}</TableCell>
                 <TableCell>{invoice.description}</TableCell>
@@ -59,7 +58,7 @@ const DirectDoPayAlert = () => {
           </TableBody>
         </Table>
         <p className="text-base mt-4 font-medium">
-          <span className="mr-2">6.3.1</span>
+          <span className="mr-2">6.2.1</span>
           Request Parameter
         </p>
         <Table className="min-w-full text-xs sm:text-sm md:text-base">
@@ -72,7 +71,7 @@ const DirectDoPayAlert = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {doPayRequestBody.map((parameter, index) => (
+            {availableRequestBody.map((parameter, index) => (
               <TableRow key={index}>
                 <TableCell>{parameter.name}</TableCell>
                 <TableCell>{parameter.type}</TableCell>
@@ -83,37 +82,9 @@ const DirectDoPayAlert = () => {
           </TableBody>
         </Table>
         <p className="text-base mt-4 font-medium">
-          <span className="mr-2">6.3.2</span>
+          <span className="mr-2">6.2.2</span>
           Response Parameter
         </p>
-        <p className="text-sm">
-          Below is the requirement of payload data with AES-128-ECB encryption
-          algorithm. The encryption key will be provided by Octoverse system.
-        </p>
-        <Table className="min-w-full text-xs sm:text-sm md:text-base">
-          <TableHeader>
-            <TableRow>
-              <TableHead>Field Name</TableHead>
-              <TableHead>Data Type</TableHead>
-              <TableHead>Mandatory</TableHead>
-              <TableHead>Description</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {doPayDataParameter.map((parameter, index) => (
-              <TableRow key={index}>
-                <TableCell>{parameter.name}</TableCell>
-                <TableCell>{parameter.type}</TableCell>
-                <TableCell>{parameter.required}</TableCell>
-                <TableCell>{parameter.description}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <p className="text-base mt-4 font-medium">
-          <span className="mr-2">6.3.4</span>
-          Payload to get payData
-        </p>
         <Table className="min-w-full text-xs sm:text-sm md:text-base">
           <TableHeader>
             <TableRow>
@@ -123,7 +94,7 @@ const DirectDoPayAlert = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {responseDoPayParameter.map((parameter, index) => (
+            {responseAvailableParameter.map((parameter, index) => (
               <TableRow key={index}>
                 <TableCell>{parameter.name}</TableCell>
                 <TableCell>{parameter.DataType}</TableCell>
@@ -140,4 +111,4 @@ const DirectDoPayAlert = () => {
   );
 };
 
-export default DirectDoPayAlert;
+export default DirectAvailableAlert;

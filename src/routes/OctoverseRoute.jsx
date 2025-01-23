@@ -1,9 +1,10 @@
 import React, { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
 
 const Login = lazy(() => import("../pages/Login"));
 const SignUp = lazy(() => import("../pages/SignUp"));
-const Redirect = lazy(() => import("../pages/Redirect"));
+const Redirect = lazy(() => import("../pages/redirect/Redirect"));
 const Direct = lazy(() => import("../pages/direct/Direct"));
 const Dashboard = lazy(() => import("../pages/Dashboard"));
 const router = createBrowserRouter([
@@ -11,7 +12,9 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <Suspense fallback={<div>Loading</div>}>
-        <Dashboard />
+        <PrivateRoute>
+          <Dashboard />
+        </PrivateRoute>
       </Suspense>
     ),
   },
@@ -35,7 +38,9 @@ const router = createBrowserRouter([
     path: "/redirect",
     element: (
       <Suspense fallback={<div>Loading</div>}>
-        <Redirect />
+        <PrivateRoute>
+          <Redirect />
+        </PrivateRoute>
       </Suspense>
     ),
   },
@@ -43,7 +48,9 @@ const router = createBrowserRouter([
     path: "/direct",
     element: (
       <Suspense fallback={<div>Loading</div>}>
-        <Direct />
+        <PrivateRoute>
+          <Direct />
+        </PrivateRoute>
       </Suspense>
     ),
   },

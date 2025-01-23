@@ -22,7 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { banks } from "./array/DirectDoPayArray";
-import DirectDoPayAlert from "../../../atomic/alert/DirectDoPayAlert";
+import DirectDoPayAlert from "../../../atomic/alert/direct/DirectDoPayAlert";
 
 const DirectDoPay = ({
   paymentToken: initialPaymentToken,

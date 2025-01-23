@@ -1,5 +1,10 @@
-import React, { useState } from "react";
+import * as React from "react";
+
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import encode from "jwt-encode";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 import {
   Card,
   CardContent,
@@ -8,78 +13,88 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import CryptoJS from "crypto-js";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import encode from "jwt-encode";
-import axios from "axios";
-import CheckPaymentStatusAlrert from "../../../atomic/alert/CheckPaymentStatusAlrert";
-
-const DirectInQuery = () => {
+import { useState } from "react";
+import DirectTokenAlert from "../../../atomic/alert/direct/DirectTokenAlert";
+const RedirectToken = ({ requestToken }) => {
   const [payload, setPayload] = useState({
-    merchantID: "MPSSD0000000084",
+    merchantID: "MPSSD0000000083",
     invoiceNo: "MPSS00000001",
+    amount: 1500,
+    currencyCode: "MMK",
+    frontendUrl: "https://mpss.com.mm",
+    backendUrl: "https://glitch.com/mpssuat",
   });
+
   const [secretKey, setSecretKey] = useState(
-    "qTGInMWK8QULop8YbBlBBOLB85K6Q9vp33sRd8cufvY"
+    "JHjRmhCyMAcVGXYuuWyyoy2m_Las8orNUhum60yThQI"
   );
-  const [dataKey, setDataKey] = useState("X3RZ1WKA6K84BUW2");
   const [encodedToken, setEncodedToken] = useState("");
   const [apiResponse, setApiResponse] = useState(null);
-  const [decodedData, setDecodedData] = useState("");
+  const [decodedUrl, setDecodedUrl] = useState("");
+
+  const handleInputChange = (key, value) => {
+    setPayload((prev) => ({
+      ...prev,
+      [key]: key === "amount" ? Number(value) : value,
+    }));
+  };
   const encodeToken = () => {
     const token = encode(payload, secretKey);
     setEncodedToken(token);
   };
 
-  const decrypted = () => {
-    if (apiResponse && apiResponse.respCode === "0000") {
-      try {
-        const encryptedData = apiResponse.data; // Extract encrypted data from response
-        const decryptedBytes = CryptoJS.AES.decrypt(
-          encryptedData,
-          CryptoJS.enc.Utf8.parse(dataKey),
-          {
-            mode: CryptoJS.mode.ECB,
-            padding: CryptoJS.pad.Pkcs7,
-          }
-        );
-        const decryptedString = decryptedBytes.toString(CryptoJS.enc.Utf8);
-        setDecodedData(decryptedString);
-      } catch (error) {
-        console.error("Decryption failed:", error);
+  const decodeToken = () => {
+    if (apiResponse.respCode === "0000") {
+      const decodedData = jwtDecode(apiResponse.data);
+      if (
+        typeof decodedData === "object" &&
+        decodedData !== null &&
+        "paymenturl" in decodedData
+      ) {
+        setDecodedUrl(decodedData.paymenturl);
       }
-    } else {
-      console.error("Invalid API response or response code.");
     }
+  };
+
+  const clear = () => {
+    setEncodedToken("");
+    setApiResponse(null);
+    setDecodedUrl("");
+  };
+
+  const goToRedirectOctoverse = () => {
+    window.open(decodedUrl, "_blank");
   };
 
   const makeApiRequest = async () => {
     try {
       const response = await axios.post(
-        "https://test.octoverse.com.mm/api/payment/auth/paymentInQuery",
+        "https://test.octoverse.com.mm/api/payment/auth/token",
         {
           payData: encodedToken,
         }
       );
+
       setApiResponse(response.data);
     } catch (error) {
       console.error("API request failed:", error);
     }
   };
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>
           <div className="flex items-center">
-            Check Payment Status <CheckPaymentStatusAlrert />
+            Request Payment Token API
+            <DirectTokenAlert />
           </div>
         </CardTitle>
         <CardDescription>
-          This API is used to check the payment status manually whether the
-          transaction is a success or not after payment completed by the end
-          user.
+          Merchant users must request this token API to get authorization token
+          and payment URL.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -97,6 +112,7 @@ const DirectInQuery = () => {
                 </div>
               ))}
             </div>
+
             <div className="w-full md:w-1/2">
               <div className="flex flex-col space-y-1.5">
                 <Label>Encoded String</Label>
@@ -111,11 +127,11 @@ const DirectInQuery = () => {
                   />
                 </div>
               )}
-              {decodedData && (
+              {decodedUrl && (
                 <div>
-                  <Label>Decoded Access Token & Payment Token</Label>
+                  <Label>Decoded Payment Url</Label>
                   <Textarea
-                    value={JSON.stringify(decodedData, null, 2)}
+                    value={JSON.stringify(decodedUrl, null, 2)}
                     readOnly
                   />
                 </div>
@@ -125,16 +141,25 @@ const DirectInQuery = () => {
         </div>
       </CardContent>
       <CardFooter className="flex justify-start gap-4">
+        <Button variant="secondary" onClick={clear}>
+          Clear
+        </Button>
         <Button onClick={encodeToken}>JWT Encode</Button>
         <Button onClick={makeApiRequest} disabled={!encodedToken}>
           Send Request
         </Button>
-        <Button onClick={decrypted} disabled={apiResponse?.respCode !== "0000"}>
-          AES ECB Decrypt
+        <Button
+          onClick={decodeToken}
+          disabled={apiResponse?.respCode !== "0000"}
+        >
+          JWT Decode
+        </Button>
+        <Button onClick={goToRedirectOctoverse} disabled={!decodedUrl}>
+          Go to Octoverse
         </Button>
       </CardFooter>
     </Card>
   );
 };
 
-export default DirectInQuery;
+export default RedirectToken;

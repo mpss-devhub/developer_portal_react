@@ -14,17 +14,18 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import encode from "jwt-encode";
 import axios from "axios";
+import DirectAvailableAlert from "../../../atomic/alert/direct/DirectAvailableAlert";
 import CheckPaymentStatusAlrert from "../../../atomic/alert/CheckPaymentStatusAlrert";
 
-const DirectInQuery = () => {
+const RedirectInQuery = () => {
   const [payload, setPayload] = useState({
-    merchantID: "MPSSD0000000084",
+    merchantID: "MPSSD0000000083",
     invoiceNo: "MPSS00000001",
   });
   const [secretKey, setSecretKey] = useState(
-    "qTGInMWK8QULop8YbBlBBOLB85K6Q9vp33sRd8cufvY"
+    "JHjRmhCyMAcVGXYuuWyyoy2m_Las8orNUhum60yThQI"
   );
-  const [dataKey, setDataKey] = useState("X3RZ1WKA6K84BUW2");
+  const [dataKey, setDataKey] = useState("XBCENLKT0UC9MQKM");
   const [encodedToken, setEncodedToken] = useState("");
   const [apiResponse, setApiResponse] = useState(null);
   const [decodedData, setDecodedData] = useState("");
@@ -36,7 +37,7 @@ const DirectInQuery = () => {
   const decrypted = () => {
     if (apiResponse && apiResponse.respCode === "0000") {
       try {
-        const encryptedData = apiResponse.data; // Extract encrypted data from response
+        const encryptedData = apiResponse.data;
         const decryptedBytes = CryptoJS.AES.decrypt(
           encryptedData,
           CryptoJS.enc.Utf8.parse(dataKey),
@@ -63,6 +64,7 @@ const DirectInQuery = () => {
           payData: encodedToken,
         }
       );
+
       setApiResponse(response.data);
     } catch (error) {
       console.error("API request failed:", error);
@@ -73,7 +75,8 @@ const DirectInQuery = () => {
       <CardHeader>
         <CardTitle>
           <div className="flex items-center">
-            Check Payment Status <CheckPaymentStatusAlrert />
+            Check Payment Status API
+            <CheckPaymentStatusAlrert />
           </div>
         </CardTitle>
         <CardDescription>
@@ -113,7 +116,7 @@ const DirectInQuery = () => {
               )}
               {decodedData && (
                 <div>
-                  <Label>Decoded Access Token & Payment Token</Label>
+                  <Label>Payment Result</Label>
                   <Textarea
                     value={JSON.stringify(decodedData, null, 2)}
                     readOnly
@@ -126,15 +129,11 @@ const DirectInQuery = () => {
       </CardContent>
       <CardFooter className="flex justify-start gap-4">
         <Button onClick={encodeToken}>JWT Encode</Button>
-        <Button onClick={makeApiRequest} disabled={!encodedToken}>
-          Send Request
-        </Button>
-        <Button onClick={decrypted} disabled={apiResponse?.respCode !== "0000"}>
-          AES ECB Decrypt
-        </Button>
+        <Button onClick={makeApiRequest} disabled={!encodedToken}>Send Request</Button>
+        <Button onClick={decrypted} disabled={apiResponse?.respCode !== "0000"}>AES ECB Decrypt</Button>
       </CardFooter>
     </Card>
   );
 };
 
-export default DirectInQuery;
+export default RedirectInQuery;

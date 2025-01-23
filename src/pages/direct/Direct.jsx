@@ -7,7 +7,7 @@ import DirectDoPay from "./include/DirectDoPay";
 import DirectInQuery from "./include/DirectInQuery";
 
 export default function Direct() {
-  const [activeTab, setActiveTab] = useState("doPay");
+  const [activeTab, setActiveTab] = useState("requestToken");
   const [paymentToken, setPaymentToken] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [paymentList, setPaymentList] = useState(null);
@@ -26,6 +26,9 @@ export default function Direct() {
   return (
     <Layout>
       <div className="px-6 my-4">
+        <h3 className="text-2xl font-semibold mb-5">
+          Direct Payment API Integration
+        </h3>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="w-full justify-start">
             <TabsTrigger value="requestToken">Request Token</TabsTrigger>
