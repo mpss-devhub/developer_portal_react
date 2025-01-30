@@ -11,7 +11,7 @@ import {
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
+  AlertDialogCancel,  
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
@@ -22,25 +22,30 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore"; // Import Firestore methods
+import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
+import { useSelector } from "react-redux";
 
 const ProjectCreateAlert = () => {
+  const { user } = useSelector((state) => state.auth);
+
   const form = useForm({
     defaultValues: {
       projectName: "",
       integrationType: "direct",
     },
+    mode: "onSubmit",
   });
 
   const onSubmit = async (data) => {
     try {
-      console.log(data);
-      const docRef = await addDoc(collection(db, "projects"), {
+      await addDoc(collection(db, "projects"), {
         projectName: data.projectName,
         integrationType: data.integrationType,
         createdAt: new Date().toISOString(),
+        createdBy: user.uid,
       });
+      form.reset();
     } catch (e) {
       console.error("Error adding document: ", e);
       alert("Error creating project.");
@@ -67,6 +72,7 @@ const ProjectCreateAlert = () => {
             <FormField
               control={form.control}
               name="projectName"
+              rules={{ required: "Project name is required" }}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-gray-700">Project Name</FormLabel>
@@ -85,6 +91,7 @@ const ProjectCreateAlert = () => {
             <FormField
               control={form.control}
               name="integrationType"
+              rules={{ required: "Integration type is required" }}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-gray-700">
@@ -92,25 +99,33 @@ const ProjectCreateAlert = () => {
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
-                      {...field}
                       value={field.value}
-                      onChange={field.onChange}
+                      onValueChange={field.onChange}
                       className="space-y-4"
                     >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem id="direct" value="direct" />
+                        <RadioGroupItem
+                          id="direct"
+                          value="Direct API Integration"
+                        />
                         <FormLabel htmlFor="direct">
                           Direct API Integration
                         </FormLabel>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem id="redirect" value="redirect" />
+                        <RadioGroupItem
+                          id="redirect"
+                          value="Redirect API Integration"
+                        />
                         <FormLabel htmlFor="redirect">
                           Redirect API Integration
                         </FormLabel>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem id="wordpress" value="wordpress" />
+                        <RadioGroupItem
+                          id="wordpress"
+                          value="WordPress API Integration"
+                        />
                         <FormLabel htmlFor="wordpress">
                           WordPress API Integration
                         </FormLabel>

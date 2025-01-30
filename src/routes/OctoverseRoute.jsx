@@ -5,16 +5,17 @@ import PrivateRoute from "./components/PrivateRoute";
 const Login = lazy(() => import("../pages/Login"));
 const SignUp = lazy(() => import("../pages/SignUp"));
 const Redirect = lazy(() => import("../pages/redirect/Redirect"));
+const RedirectAccount = lazy(() => import("../pages/redirect/RedirectAccount"));
 const Direct = lazy(() => import("../pages/direct/Direct"));
 const Dashboard = lazy(() => import("../pages/Dashboard"));
+const Verify = lazy(() => import("../pages/Verify"));
+const FinishSignUp = lazy(() => import("../pages/FinishSignUp"));
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <Suspense fallback={<div>Loading</div>}>
-        <PrivateRoute>
           <Dashboard />
-        </PrivateRoute>
       </Suspense>
     ),
   },
@@ -35,12 +36,26 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/verify-email",
+    element: (
+      <Suspense fallback={<div>Loading</div>}>
+        <Verify />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/finishSignUp",
+    element: (
+      <Suspense fallback={<div>Loading</div>}>
+        <FinishSignUp />
+      </Suspense>
+    ),
+  },
+  {
     path: "/redirect",
     element: (
       <Suspense fallback={<div>Loading</div>}>
-        <PrivateRoute>
           <Redirect />
-        </PrivateRoute>
       </Suspense>
     ),
   },
@@ -48,9 +63,15 @@ const router = createBrowserRouter([
     path: "/direct",
     element: (
       <Suspense fallback={<div>Loading</div>}>
-        <PrivateRoute>
           <Direct />
-        </PrivateRoute>
+      </Suspense>
+    ),
+  },
+  {
+    path: "/redirect-account",
+    element: (
+      <Suspense fallback={<div>Loading</div>}>
+          <RedirectAccount />
       </Suspense>
     ),
   },

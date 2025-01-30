@@ -13,40 +13,57 @@ import {
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
-import { createUserWithEmailAndPassword } from "@firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendSignInLinkToEmail,
+  getAuth,
+} from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../config/firebaseConfig";
+import { db } from "../config/firebaseConfig";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
-const loginSchema = z.object({
-  name: z.string().nonempty("Full name is required"),
-  email: z
-    .string()
-    .email("Please enter a valid email")
-    .nonempty("Email is required"),
-  password: z
-    .string()
-    .min(6, "Password must be at least 6 characters long")
-    .nonempty("Password is required"),
-  confirmPassword: z
-    .string(),
-  phone: z
-    .string()
-    .min(10, "Please enter a valid phone number")
-    .nonempty("Phone is required"),
-});
+const auth = getAuth();
+
+// Define Action Code Settings for Email Link Sign-In
+const actionCodeSettings = {
+  url: "http://localhost:5173/finishSignUp", // Change to your actual domain in production
+  handleCodeInApp: true,
+};
+
+const signUpSchema = z
+  .object({
+    name: z.string().nonempty("Full name is required"),
+    email: z
+      .string()
+      .email("Please enter a valid email")
+      .nonempty("Email is required"),
+    phone: z
+      .string()
+      .min(10, "Please enter a valid phone number")
+      .nonempty("Phone is required"),
+    password: z
+      .string()
+      .min(6, "Password must be at least 6 characters long")
+      .nonempty("Password is required"),
+    confirmPassword: z.string().nonempty("Confirm Password is required"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 const defaultValues = {
   name: "",
   email: "",
+  phone: "",
   password: "",
   confirmPassword: "",
-  phone: "",
 };
 
 function SignUp() {
   const form = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(signUpSchema),
     defaultValues,
   });
 
@@ -55,13 +72,15 @@ function SignUp() {
   const onSubmit = async (data) => {
     const { name, email, password, phone } = data;
     try {
+      // Create User in Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-
       const userId = userCredential.user.uid;
+
+      // Store user details in Firestore
       await setDoc(doc(db, "users", userId), {
         name,
         email,
@@ -69,7 +88,10 @@ function SignUp() {
         createdAt: new Date().toISOString(),
       });
 
-      navigate("/dashboard");
+      // Send Sign-in Link to Email
+      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      window.localStorage.setItem("emailForSignIn", email);
+      navigate("/verify-email"); // Redirect to a confirmation page
     } catch (error) {
       form.setError("email", {
         type: "manual",

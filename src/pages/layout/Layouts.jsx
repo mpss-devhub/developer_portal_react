@@ -6,7 +6,7 @@ export default function Layout({ children }) {
     <SidebarProvider>
       <AppSidebar />
       <main className="flex-1 overflow-y-auto">
-        {/* <SidebarTrigger /> */}
+        <SidebarTrigger />
         <div>{children}</div>
       </main>
     </SidebarProvider>

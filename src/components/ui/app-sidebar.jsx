@@ -1,16 +1,18 @@
-import { Calendar, Home, Inbox, LogOut, Search, Settings } from "lucide-react";
+import { Home, Inbox, LogOut, Settings } from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarFooter,
 } from "@/components/ui/sidebar";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../.../../../store/authSlice";
 
 // Menu items.
 const items = [
@@ -32,6 +34,12 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
   return (
     <Sidebar>
       <SidebarContent>
@@ -56,10 +64,10 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <a href="#">
+              <div className="pointer" onClick={handleLogOut}>
                 <LogOut />
                 <span>Log Out</span>
-              </a>
+              </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

@@ -30,7 +30,7 @@ export default function Direct() {
           Direct Payment API Integration
         </h3>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="w-full justify-start">
+          <TabsList className="w-full justify-start overflow-x-auto">
             <TabsTrigger value="requestToken">Request Token</TabsTrigger>
             <TabsTrigger value="available">Available Payment List</TabsTrigger>
             <TabsTrigger value="doPay">Do Pay</TabsTrigger>

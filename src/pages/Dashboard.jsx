@@ -1,16 +1,41 @@
-import React from "react";
-import Layout from "./layout/layouts";
+import React, { useEffect, useState } from "react";
+import Layout from "./layout/Layouts";
 import { Search } from "lucide-react";
 import ProjectFolder from "../atomic/ProjectFolder";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardDescription,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardDescription } from "@/components/ui/card";
 import ProjectCreateAlert from "../atomic/alert/ProjectCreateAlert";
+import { useSelector } from "react-redux";
+import { collection, getDocs, query, where } from "@firebase/firestore";
+import { db } from "../config/firebaseConfig";
 
 const Dashboard = () => {
+  const { user } = useSelector((state) => state.auth);
+  const [projects, setProjects] = useState([]);
+
+  const fetchUserProjects = async (userUid) => {
+    try {
+      const q = query(
+        collection(db, "projects"),
+        where("createdBy", "==", userUid)
+      );
+      const querySnapshot = await getDocs(q);
+      const projects = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setProjects(projects);
+    } catch (e) {
+      console.error("Error fetching user projects: ", e);
+      alert("Error retrieving projects.");
+    }
+  };
+
+  useEffect(() => {
+    if (user && user.uid) {
+      fetchUserProjects(user.uid);
+    }
+  }, [user]);
 
   return (
     <Layout>
@@ -43,12 +68,15 @@ const Dashboard = () => {
             Created Projects
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Render multiple ProjectFolder components */}
-            {Array(3)
-              .fill(null)
-              .map((_, index) => (
-                <ProjectFolder key={index} />
-              ))}
+            {projects.length > 0 ? (
+              projects.map((project) => (
+                <ProjectFolder key={project.id} project={project} />
+              ))
+            ) : (
+              <p className="col-span-full text-center text-gray-500">
+                No projects created yet.
+              </p>
+            )}
           </div>
         </div>
       </div>

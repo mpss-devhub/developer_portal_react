@@ -17,14 +17,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import DirectTokenAlert from "../../../atomic/alert/direct/DirectTokenAlert";
-const RedirectToken = ({ requestToken }) => {
+const RedirectToken = () => {
   const [payload, setPayload] = useState({
     merchantID: "MPSSD0000000083",
-    invoiceNo: "MPSS00000001",
+    invoiceNo: "MPSSPKK000001",
     amount: 1500,
     currencyCode: "MMK",
     frontendUrl: "https://mpss.com.mm",
-    backendUrl: "https://glitch.com/mpssuat",
+    backendUrl: "https://mpssuat.glitch.me/octoverse/result",
   });
 
   const [secretKey, setSecretKey] = useState(
