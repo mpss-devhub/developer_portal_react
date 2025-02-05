@@ -40,21 +40,6 @@ const Dashboard = () => {
   return (
     <Layout>
       <div className="px-6 mt-6 space-y-6">
-        <Card>
-          <CardHeader>
-            <CardDescription>
-              <p className="text-sm text-center">
-                Your free trial account will end in <strong>14 days</strong>.{" "}
-                <a
-                  className="underline text-blue-700 hover:text-blue-900 transition-colors"
-                  href="#"
-                >
-                  Upgrade now.
-                </a>
-              </p>
-            </CardDescription>
-          </CardHeader>
-        </Card>
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <Button variant="outline" className="flex items-center gap-2">
             <Search size={16} />
@@ -62,7 +47,6 @@ const Dashboard = () => {
           </Button>
           <ProjectCreateAlert />
         </div>
-
         <div className="space-y-4">
           <h3 className="text-lg font-semibold border-b-2 pb-2">
             Created Projects

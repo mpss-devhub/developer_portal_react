@@ -9,7 +9,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Info } from "lucide-react";
+import { Info} from "lucide-react";
 import {
   Table,
   TableBody,
@@ -25,7 +25,8 @@ import {
   paymentInQueryRequest,
   responseParameterQuery,
 } from "../../pages/direct/include/array/DirectTokenArray";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 const CheckPaymentStatusAlrert = () => {
   return (
     <AlertDialog>
@@ -36,7 +37,7 @@ const CheckPaymentStatusAlrert = () => {
         <AlertDialogHeader>
           <div className="flex items-center justify-between">
             <AlertDialogTitle>Check Payment Status API</AlertDialogTitle>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel className="border-none hover:bg-white"><FontAwesomeIcon icon={faXmark} className="text-red-600" /></AlertDialogCancel>
           </div>
         </AlertDialogHeader>
         <p className="text-sm">
