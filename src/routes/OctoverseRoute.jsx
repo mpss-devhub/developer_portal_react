@@ -5,17 +5,19 @@ import PrivateRoute from "./components/PrivateRoute";
 const Login = lazy(() => import("../pages/Login"));
 const SignUp = lazy(() => import("../pages/SignUp"));
 const Redirect = lazy(() => import("../pages/redirect/Redirect"));
-const RedirectAccount = lazy(() => import("../pages/redirect/RedirectAccount"));
 const Direct = lazy(() => import("../pages/direct/Direct"));
 const Dashboard = lazy(() => import("../pages/Dashboard"));
 const Verify = lazy(() => import("../pages/Verify"));
 const FinishSignUp = lazy(() => import("../pages/FinishSignUp"));
+const Wordpress = lazy(() => import("../pages/wordpress/Wordpress"));
+const Error = lazy(() => import("../pages/error/Error"));
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <Suspense fallback={<div>Loading</div>}>
-          <Dashboard />
+        <Dashboard />
       </Suspense>
     ),
   },
@@ -55,7 +57,7 @@ const router = createBrowserRouter([
     path: "/redirect",
     element: (
       <Suspense fallback={<div>Loading</div>}>
-          <Redirect />
+        <Redirect />
       </Suspense>
     ),
   },
@@ -63,15 +65,23 @@ const router = createBrowserRouter([
     path: "/direct",
     element: (
       <Suspense fallback={<div>Loading</div>}>
-          <Direct />
+        <Direct />
       </Suspense>
     ),
   },
   {
-    path: "/redirect-account",
+    path: "/wordpress",
     element: (
       <Suspense fallback={<div>Loading</div>}>
-          <RedirectAccount />
+        <Wordpress />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/error_code",
+    element: (
+      <Suspense fallback={<div>Loading</div>}>
+        <Error />
       </Suspense>
     ),
   },

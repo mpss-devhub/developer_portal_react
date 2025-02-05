@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DirectAvailable from "./include/DirectAvailable";
 import DirectDoPay from "./include/DirectDoPay";
 import DirectInQuery from "./include/DirectInQuery";
+import DirectAlert from "../../atomic/alert/direct/DirectAlert";
 
 export default function Direct() {
   const [activeTab, setActiveTab] = useState("requestToken");
@@ -26,9 +27,11 @@ export default function Direct() {
   return (
     <Layout>
       <div className="px-6 my-4">
-        <h3 className="text-2xl font-semibold mb-5">
-          Direct Payment API Integration
-        </h3>
+        <div className="flex items-center">
+          <h3 className="text-2xl font-semibold mb-5">
+            Direct Payment API Integration <DirectAlert />
+          </h3>
+        </div>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="w-full justify-start overflow-x-auto">
             <TabsTrigger value="requestToken">Request Token</TabsTrigger>

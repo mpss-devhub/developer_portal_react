@@ -261,6 +261,47 @@ export const responseDoPayParameter = [
   },
 ];
 
+export const environmentUrl = [
+  {
+    name: "UAT",
+    description: "https://test.octoverse.com.mm/api/payment",
+  },
+  {
+    name: "Production",
+    description: "https://octoverse.com.mm/api/payment",
+  },
+]
+
+export const directInformation = [
+  {
+    name: "merchantID",
+    value: "MPSSD0000000084"
+  },
+  {
+    name: "secretKey",
+    value: "qTGInMWK8QULop8YbBlBBOLB85K6Q9vp33sRd8cufvY"
+  },
+  {
+    name: "dataKey",
+    value: "X3RZ1WKA6K84BUW2"
+  }
+]
+
+export const redirectInformation = [
+  {
+    name: "merchantID",
+    value: "MPSSD0000000083"
+  },
+  {
+    name: "secretKey",
+    value: "JHjRmhCyMAcVGXYuuWyyoy2m_Las8orNUhum60yThQI"
+  },
+  {
+    name: "dataKey",
+    value: "XBCENLKT0UC9MQKM"
+  }
+]
+
 export const doPayDataParameter = [
   {
     name: "phoneNo",
