@@ -1,14 +1,12 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "../../components/ui/app-sidebar";
+import { AppNavbar } from "../../components/ui/app-navbar";
 
 export default function Layout({ children }) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
+    <>
+      <AppNavbar />
       <main className="flex-1 overflow-y-auto">
-        <SidebarTrigger />
         <div>{children}</div>
       </main>
-    </SidebarProvider>
+    </>
   );
 }

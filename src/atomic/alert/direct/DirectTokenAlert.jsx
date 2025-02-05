@@ -25,19 +25,19 @@ import {
   requestParameter,
   responseParameter,
 } from "../../../pages/direct/include/array/DirectTokenArray";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 const DirectTokenAlert = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        
         <Info size={20} className="ml-4 text-blue-700" />
       </AlertDialogTrigger>
       <AlertDialogContent className="max-h-[90vh] max-w-[100vh] overflow-y-auto">
         <AlertDialogHeader>
           <div className="flex items-center justify-between">
             <AlertDialogTitle>Request payment token API</AlertDialogTitle>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel className="border-none hover:bg-white"><FontAwesomeIcon icon={faXmark} className="text-red-600" /></AlertDialogCancel>
           </div>
         </AlertDialogHeader>
         <p className="text-sm">
@@ -127,7 +127,7 @@ const DirectTokenAlert = () => {
         </div>
         <p>
           PayData :{" "}
-          <a href="https://jwt.io/" className="text-blue-600 underline">
+          <a href="https://jwt.io/" className="text-blue-600 underline" target="_blank">
             JWT
           </a>{" "}
           encoded data with secret key
@@ -151,7 +151,7 @@ const DirectTokenAlert = () => {
         </div>
         <p>
           You need to decode data to get payment token and access token in{" "}
-          <a href="https://jwt.io/" className="text-blue-600 underline">
+          <a href="https://jwt.io/" className="text-blue-600 underline"  target="_blank">
             JWT
           </a>
           .

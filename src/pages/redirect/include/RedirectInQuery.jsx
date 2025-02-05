@@ -85,9 +85,9 @@ const RedirectInQuery = () => {
           user.
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="md:pl-16 sm:pl-0">
         <div className="grid w-full items-center gap-4">
-          <div className="flex flex-wrap w-full gap-4">
+          <div className="flex flex-wrap w-full gap-10">
             <div className="w-full md:w-1/3 flex flex-col space-y-4">
               {Object.entries(payload).map(([key, value]) => (
                 <div key={key} className="flex flex-col space-y-1.5">
@@ -100,7 +100,7 @@ const RedirectInQuery = () => {
                 </div>
               ))}
             </div>
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:w-3/5">
               <div className="flex flex-col space-y-1.5">
                 <Label>Encoded String</Label>
                 <Textarea value={encodedToken} readOnly />
@@ -127,7 +127,7 @@ const RedirectInQuery = () => {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-start gap-4">
+      <CardFooter className="flex justify-start gap-4 md:pl-16 sm:pl-0">
         <Button onClick={encodeToken}>JWT Encode</Button>
         <Button onClick={makeApiRequest} disabled={!encodedToken}>Send Request</Button>
         <Button onClick={decrypted} disabled={apiResponse?.respCode !== "0000"}>AES ECB Decrypt</Button>

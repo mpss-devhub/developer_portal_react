@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Layout from "../layout/layouts";
+import Layout from "./layout/layouts";
 import DirectToken from "./include/DirectToken";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DirectAvailable from "./include/DirectAvailable";

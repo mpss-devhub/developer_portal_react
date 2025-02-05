@@ -97,9 +97,9 @@ const RedirectToken = () => {
           and payment URL.
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="md:pl-16 sm:pl-0">
         <div className="grid w-full items-center gap-4">
-          <div className="flex flex-wrap w-full gap-4">
+          <div className="flex flex-wrap w-full gap-10">
             <div className="w-full md:w-1/3 flex flex-col space-y-4">
               {Object.entries(payload).map(([key, value]) => (
                 <div key={key} className="flex flex-col space-y-1.5">
@@ -113,7 +113,7 @@ const RedirectToken = () => {
               ))}
             </div>
 
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:w-3/5">
               <div className="flex flex-col space-y-1.5">
                 <Label>Encoded String</Label>
                 <Textarea value={encodedToken} readOnly />
@@ -140,22 +140,23 @@ const RedirectToken = () => {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-start gap-4">
-        <Button variant="secondary" onClick={clear}>
-          Clear
-        </Button>
-        <Button onClick={encodeToken}>JWT Encode</Button>
-        <Button onClick={makeApiRequest} disabled={!encodedToken}>
-          Send Request
+      <CardFooter className="flex justify-start gap-4 md:pl-16 sm:pl-0 p-0 pb-4">
+        <Button onClick={encodeToken} className="text-xs md:text-sm">JWT <br className="md:hidden" /> Encode</Button>
+        <Button onClick={makeApiRequest} className="text-xs md:text-sm" disabled={!encodedToken}>
+          Send <br className="md:hidden" /> Request
         </Button>
         <Button
           onClick={decodeToken}
+          className="text-xs md:text-sm"
           disabled={apiResponse?.respCode !== "0000"}
         >
-          JWT Decode
+          JWT <br className="md:hidden" /> Decode
         </Button>
-        <Button onClick={goToRedirectOctoverse} disabled={!decodedUrl}>
-          Go to Octoverse
+        <Button onClick={goToRedirectOctoverse} disabled={!decodedUrl} className="text-xs md:text-sm">
+          Go to <br className="md:hidden" /> Octoverse
+        </Button>
+        <Button variant="secondary" onClick={clear} className="text-xs md:text-sm">
+          Clear
         </Button>
       </CardFooter>
     </Card>
