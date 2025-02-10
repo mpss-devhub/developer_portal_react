@@ -59,6 +59,7 @@ export const Login = () => {
           email: userCredential.user.email,
         })
       );
+      localStorage.setItem("loginSuccess", "true");
       navigate("/");
     } catch (error) {
       alert(error.message);

@@ -17,14 +17,9 @@ export function AppNavbar({ isAuthenticated, onLogout }) {
             url: "/",
             icon: Home,
         },
-        {
-            title: "Services",
-            url: "#",
-            icon: Inbox,
-        },
         isAuthenticated
-            ? { title: "Logout", url: "#", icon: LogOut, onClick: onLogout }
-            : { title: "Login", url: "/login", icon: LogIn }
+            ? { title: "Login", url: "/login", icon: LogIn }
+            : { title: "Logout", url: "/login", icon: LogOut, onClick: onLogout }
     ];
 
     return (
@@ -43,10 +38,8 @@ export function AppNavbar({ isAuthenticated, onLogout }) {
                 <NavigationMenuList className="md:flex justify-center flex-grow">
                     <NavigationMenuItem>
                         <p className="md:text-sm text-xs text-center">
-                            Your free trial account will end in  <br className="md:hidden"/><strong>14 days</strong>.{" "}
-                            <a className="underline text-blue-700 hover:text-blue-900 transition-colors" href="#">
-                                Upgrade now.
-                            </a>
+                            Your free trial account will end in <strong>14 days</strong>.{" "}
+                            
                         </p>
                     </NavigationMenuItem>
                 </NavigationMenuList>
