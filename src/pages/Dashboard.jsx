@@ -8,10 +8,12 @@ import ProjectCreateAlert from "../atomic/alert/ProjectCreateAlert";
 import { useSelector } from "react-redux";
 import { collection, getDocs, query, where } from "@firebase/firestore";
 import { db } from "../config/firebaseConfig";
+import StartAlert from "./StartAlert";
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state.auth);
   const [projects, setProjects] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
 
   const fetchUserProjects = async (userUid) => {
     try {
@@ -35,17 +37,19 @@ const Dashboard = () => {
     if (user && user.uid) {
       fetchUserProjects(user.uid);
     }
+    if (localStorage.getItem("loginSuccess") === "true") {
+      setShowAlert(true);
+      // Remove the flag so the alert is shown only once.
+      localStorage.removeItem("loginSuccess");
+    }
   }, [user]);
 
   return (
     <Layout>
+        <StartAlert open={showAlert} onOpenChange={setShowAlert} />
       <div className="px-6 mt-6 space-y-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <Button variant="outline" className="flex items-center gap-2">
-            <Search size={16} />
-            Search
-          </Button>
-          <ProjectCreateAlert />
+        <div className="">
+          <ProjectCreateAlert/>
         </div>
         <div className="space-y-4">
           <h3 className="text-lg font-semibold border-b-2 pb-2">
