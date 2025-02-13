@@ -22,7 +22,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-
+import axio from "axios";
 const auth = getAuth();
 
 // Define Action Code Settings for Email Link Sign-In
@@ -70,34 +70,8 @@ function SignUp() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    const { name, email, password, phone } = data;
-    try {
-      // Create User in Firebase Auth
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const userId = userCredential.user.uid;
-
-      // Store user details in Firestore
-      await setDoc(doc(db, "users", userId), {
-        name,
-        email,
-        phone,
-        createdAt: new Date().toISOString(),
-      });
-
-      // Send Sign-in Link to Email
-      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-      window.localStorage.setItem("emailForSignIn", email);
-      navigate("/verify-email"); // Redirect to a confirmation page
-    } catch (error) {
-      form.setError("email", {
-        type: "manual",
-        message: error.message,
-      });
-    }
+    
+    
   };
 
   return (
@@ -117,6 +91,8 @@ function SignUp() {
                       type="text"
                       placeholder="Enter your name"
                       {...field}
+                      value={formValues["name"]}
+                      onChange={onchange}
                     />
                   </FormControl>
                   <FormMessage>
@@ -137,6 +113,8 @@ function SignUp() {
                       type="email"
                       placeholder="Enter your email"
                       {...field}
+                      value={formValues["email"]}
+                      onChange={onchange}
                     />
                   </FormControl>
                   <FormMessage>
@@ -154,8 +132,8 @@ function SignUp() {
                   <FormControl>
                     <PhoneInput
                       defaultCountry="mm"
-                      value={field.value}
-                      onChange={(value) => field.onChange(value)}
+                      value={formValues["phone"]}
+                      onChange={onchange}
                       inputClassName="border rounded-md p-2 w-full bg-gray-50"
                       placeholder="Enter your phone number"
                     />
@@ -178,6 +156,8 @@ function SignUp() {
                       type="password"
                       placeholder="Enter your password"
                       {...field}
+                      value={formValues["password"]}
+                      onChange={onchange}
                     />
                   </FormControl>
                   <FormMessage>
