@@ -26,7 +26,7 @@ class StoreUserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->user)],
             'password' => ['required', 'string', 'min:6'],
-            'phone' => ['required', 'string', 'max:15', 'regex:/^[0-9+\-() ]+$/'], 
+            'phone' => ['required', 'string', 'max:15'], 
         ];
     }
 }

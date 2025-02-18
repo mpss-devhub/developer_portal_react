@@ -6,8 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardDescription } from "@/components/ui/card";
 import ProjectCreateAlert from "../atomic/alert/ProjectCreateAlert";
 import { useSelector } from "react-redux";
-import { collection, getDocs, query, where } from "@firebase/firestore";
-import { db } from "../config/firebaseConfig";
 import StartAlert from "./StartAlert";
 
 const Dashboard = () => {

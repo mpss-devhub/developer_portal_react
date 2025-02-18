@@ -1,7 +1,5 @@
 import { useEffect } from "react";
-import { isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../config/firebaseConfig";
 
 function FinishSignUp() {
   const navigate = useNavigate();

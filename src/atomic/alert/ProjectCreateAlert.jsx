@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ProjectContext } from "../../pages/ProjectContext";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -11,7 +13,7 @@ import {
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,  
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
@@ -22,33 +24,48 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../config/firebaseConfig";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ProjectCreateAlert = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth); 
+  console.log("User:", user); 
+  const navigate = useNavigate();
 
   const form = useForm({
     defaultValues: {
       projectName: "",
-      integrationType: "direct",
+      integrationType: "Direct API Integration",
     },
     mode: "onSubmit",
   });
 
+  const { projects, setProjects } = useContext(ProjectContext) || {};
+
   const onSubmit = async (data) => {
+    if (!user?.id) {
+      console.error("User not authenticated");
+      return;
+    }
+
+    const formattedData = {
+      pj_name: data.projectName,
+      type: data.integrationType,
+      user_id: user.id,
+    };
+
+    console.log("Submitting Data:", formattedData);
+
     try {
-      await addDoc(collection(db, "projects"), {
-        projectName: data.projectName,
-        integrationType: data.integrationType,
-        createdAt: new Date().toISOString(),
-        createdBy: user.uid,
-      });
-      form.reset();
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/v1/projects",
+        formattedData
+      );
+      console.log("Project created:", response.data);
+      setProjects([...projects, response.data]);
+      navigate("/");
     } catch (e) {
-      console.error("Error adding document: ", e);
-      alert("Error creating project.");
+      console.error("Project creation failed", e.response?.data || e.message);
     }
   };
 
@@ -104,31 +121,16 @@ const ProjectCreateAlert = () => {
                       className="space-y-4"
                     >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          id="direct"
-                          value="Direct API Integration"
-                        />
-                        <FormLabel htmlFor="direct">
-                          Direct API Integration
-                        </FormLabel>
+                        <RadioGroupItem id="direct" value="Direct API Integration" />
+                        <FormLabel htmlFor="direct">Direct API Integration</FormLabel>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          id="redirect"
-                          value="Redirect API Integration"
-                        />
-                        <FormLabel htmlFor="redirect">
-                          Redirect API Integration
-                        </FormLabel>
+                        <RadioGroupItem id="redirect" value="Redirect API Integration" />
+                        <FormLabel htmlFor="redirect">Redirect API Integration</FormLabel>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          id="wordpress"
-                          value="WordPress API Integration"
-                        />
-                        <FormLabel htmlFor="wordpress">
-                          WordPress API Integration
-                        </FormLabel>
+                        <RadioGroupItem id="wordpress" value="WordPress API Integration" />
+                        <FormLabel htmlFor="wordpress">WordPress API Integration</FormLabel>
                       </div>
                     </RadioGroup>
                   </FormControl>

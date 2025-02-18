@@ -1,3 +1,5 @@
+import React, { useContext } from "react";
+import { UserContext } from "./UserContext";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,23 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
-import {
-  createUserWithEmailAndPassword,
-  sendSignInLinkToEmail,
-  getAuth,
-} from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../config/firebaseConfig";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import axio from "axios";
-const auth = getAuth();
-
-// Define Action Code Settings for Email Link Sign-In
-const actionCodeSettings = {
-  url: "http://localhost:5173/finishSignUp", // Change to your actual domain in production
-  handleCodeInApp: true,
-};
+import axios from "axios"; // Add missing import
 
 const signUpSchema = z
   .object({
@@ -62,16 +49,23 @@ const defaultValues = {
 };
 
 function SignUp() {
+  const { user, users, getUser, getUsers, onChange, formValues } = useContext(UserContext);
+  const navigate = useNavigate();
   const form = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues,
   });
 
-  const navigate = useNavigate();
-
   const onSubmit = async (data) => {
-    
-    
+   
+    console.log(data); 
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/v1/users", data);
+      console.log("User registered:", response.data);
+      navigate("/");
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
   };
 
   return (
@@ -91,8 +85,6 @@ function SignUp() {
                       type="text"
                       placeholder="Enter your name"
                       {...field}
-                      value={formValues["name"]}
-                      onChange={onchange}
                     />
                   </FormControl>
                   <FormMessage>
@@ -113,8 +105,6 @@ function SignUp() {
                       type="email"
                       placeholder="Enter your email"
                       {...field}
-                      value={formValues["email"]}
-                      onChange={onchange}
                     />
                   </FormControl>
                   <FormMessage>
@@ -132,8 +122,7 @@ function SignUp() {
                   <FormControl>
                     <PhoneInput
                       defaultCountry="mm"
-                      value={formValues["phone"]}
-                      onChange={onchange}
+                      {...field}
                       inputClassName="border rounded-md p-2 w-full bg-gray-50"
                       placeholder="Enter your phone number"
                     />
@@ -156,8 +145,6 @@ function SignUp() {
                       type="password"
                       placeholder="Enter your password"
                       {...field}
-                      value={formValues["password"]}
-                      onChange={onchange}
                     />
                   </FormControl>
                   <FormMessage>

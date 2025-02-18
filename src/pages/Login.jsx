@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "./UserContext";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,12 +15,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { signInWithEmailAndPassword } from "@firebase/auth";
-import { auth } from "../config/firebaseConfig";
-import { login } from "../store/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 const loginSchema = z.object({
   email: z
     .string()
@@ -38,34 +36,30 @@ const defaultValues = {
 };
 
 export const Login = () => {
-  const dispatch = useDispatch(); // Corrected: Removed destructuring
-  const navigate = useNavigate(); // Corrected: Removed destructuring
+  const navigate = useNavigate(); 
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues,
   });
 
-  const onSubmit = async (data) => {
-    const { email, password } = data;
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      dispatch(
-        login({
-          uid: userCredential.user.uid,
-          email: userCredential.user.email,
-        })
-      );
-      localStorage.setItem("loginSuccess", "true");
-      navigate("/");
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+  const { getUsers, user, formValues, onChange } = useContext(UserContext);
 
+  const onSubmit = async (data) => {
+    console.log("Form data: ", data);
+
+    // Example of calling getUsers from context (if needed)
+    await getUsers();
+
+    // If you need to send data to the API (e.g., user form data):
+ 
+    const response = await axios.post("http://127.0.0.1:8000/api/v1/login", {
+      params: {
+        email: formValues.email, 
+        password: formValues.password,
+      },
+    });
+    console.log("API response:", response);
+  };
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
