@@ -6,14 +6,17 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Content;
+use Illuminate\Support\Facades\URL;
 
 class EmailVerification extends Mailable {
+    
     use Queueable, SerializesModels;
 
-    public $email;
+    public $url;
     public function __construct($email)
     {
-        $this->email = $email;
+        $generate = URL::temporarySignedRoute('verify-email',now()->addMinute(1),['email' => $email]);
+        $this->url = str_replace(env('APP_URL'),env('FRONTEND_URL'), $generate);
     }
 
     public function envelope(): Envelope
