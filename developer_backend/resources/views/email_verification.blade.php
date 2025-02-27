@@ -1,12 +1,11 @@
 <x-mail::message>
-    # Email Verfication
+# Email Verification
+
+Thank you for registering! Please verify your email address by clicking the button below:
 
 <x-mail::button :url="$url">
-Email Verfication
+Verify Email
 </x-mail::button>
-<p>{{$url}}</p>
-Thanks,<br/>
-{{
-    config('app.name')
-}}
+
+Thanks,
 </x-mail::message>

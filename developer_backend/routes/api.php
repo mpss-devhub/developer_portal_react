@@ -16,3 +16,18 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user',function(Request $request){
     return $request->user();
 });
+
+Route::middleware('auth:sanctum')->get('/dashboard', function (Request $request) {
+    $user = $request->user();
+
+    if (is_null($user->email_verified_at)) {
+        return response()->json([
+            'message' => 'Email address is not verified.',
+        ], 403);
+    }
+
+    return response()->json([
+        'message' => 'Welcome to the dashboard',
+        'user' => $user
+    ]);
+});

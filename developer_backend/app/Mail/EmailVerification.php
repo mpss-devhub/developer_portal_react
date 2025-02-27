@@ -15,8 +15,10 @@ class EmailVerification extends Mailable {
     public $url;
     public function __construct($email)
     {
-        $generate = URL::temporarySignedRoute('verify-email',now()->addMinute(1),['email' => $email]);
-        $this->url = str_replace(env('APP_URL'),env('FRONTEND_URL'), $generate);
+        $generate = URL::temporarySignedRoute('verify-email',now()->addMinute(30),['email' => $email->email]);
+        
+        $this->url = str_replace(config('app.url'), config('app.frontend_url'), $generate);
+
     }
 
     public function envelope(): Envelope
@@ -28,7 +30,8 @@ class EmailVerification extends Mailable {
 
     public function content(): Content{
         return new Content(
-            markdown:'email_verification'
+            markdown:'email_verification',
+            with: ['verificationUrl' => $this->url]
         );
     }
 

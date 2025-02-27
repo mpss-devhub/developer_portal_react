@@ -16,6 +16,7 @@ class user extends Model
         'email',
         'phone',
         'password',
+        'email_verified_at'
     ];
 
     /**
@@ -25,8 +26,7 @@ class user extends Model
      */
 
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password'
     ];
 
     protected $casts = [

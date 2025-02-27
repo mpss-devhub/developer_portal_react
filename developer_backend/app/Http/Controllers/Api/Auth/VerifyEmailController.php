@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\EmailVerification;
-use Illuminate\Support\Facades\Log;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class VerifyEmailController extends Controller
 {
@@ -14,18 +13,20 @@ class VerifyEmailController extends Controller
         $this->middleware(['auth:sanctum']);
     }
 
-    public function sendMail()
+    public function verify(Request $request)
     {
-        $user = auth()->user();
+        if (!$request->hasValidSignature()) {
+            return response()->json(['status_code' => 400,'message' => 'Invalid or expired verification link.'], 400);
+        }
+        $email = $request->query('email');
+        $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return response()->json([
-                'message' => 'User not authenticated.'
-            ], 401);
+            return response()->json(['status_code' => 404,'message' => 'User not found.'], 404);
         }
-        Mail::to($user->email)->send(new EmailVerification($user->email));
-        return response()->json([
-            'message' => 'Email verified'
-        ]);
+        $user->email_verified_at = now();
+        $user->save();
+
+        return response()->json(['status_code' => 200,'message' => 'Email successfully verified.'],200);
     }
 }
