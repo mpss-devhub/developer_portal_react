@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ProjectController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,21 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user',function(Request $request){
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', fn(Request $request) => $request->user());
+    Route::post('/projects', [ProjectController::class, 'store']);
+    Route::get('/dashboard', function (Request $request) {
+        $user = $request->user();
 
-Route::middleware('auth:sanctum')->get('/dashboard', function (Request $request) {
-    $user = $request->user();
-
-    if (is_null($user->email_verified_at)) {
-        return response()->json([
-            'message' => 'Email address is not verified.',
-        ], 403);
-    }
-
-    return response()->json([
-        'message' => 'Welcome to the dashboard',
-        'user' => $user
-    ]);
+        return is_null($user->email_verified_at)
+            ? response()->json(['message' => 'Email address is not verified.'], 403)
+            : response()->json(['message' => 'Welcome to the dashboard', 'user' => $user]);
+    });
 });

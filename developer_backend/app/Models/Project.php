@@ -9,14 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Project extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = [
-        'pj_name',
-        'type',
-        'user_id',
-    ];
-    protected $dates = ['deleted_at']; 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+
+    protected $fillable = ['user_id', 'pj_name', 'pj_type'];
 }
