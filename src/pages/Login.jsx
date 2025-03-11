@@ -42,6 +42,7 @@ const defaultValues = {
 export const Login = () => {
   const dispatch = useDispatch();
   const [alert, setAlert] = useState(false);
+  const [backend_message, setBackendMessage] = useState("Invalid credentials");
   const navigate = useNavigate();
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -52,6 +53,9 @@ export const Login = () => {
     const response = await authRepository.login(data);
     if (response?.status_code == "400") {
       setAlert(true);
+    } else if (response?.status_code == "403") {
+      setAlert(true);
+      setBackendMessage("Please verify your email at your mailbox");
     } else {
       setAlert(false);
       localStorage.setItem("token", response.access_token);
@@ -75,7 +79,7 @@ export const Login = () => {
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
                 <AlertTitle>Login Failed!</AlertTitle>
-                <AlertDescription>Invalid Credentials</AlertDescription>
+                <AlertDescription>{backend_message}</AlertDescription>
               </Alert>
             )}
             <FormField
