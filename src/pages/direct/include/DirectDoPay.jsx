@@ -34,7 +34,7 @@ const DirectDoPay = ({
   const [encryptedString, setEncryptedString] = useState("");
   const [dataKey, setDataKey] = useState("X3RZ1WKA6K84BUW2");
   const [payData, setPayData] = useState({
-    phoneNo: "09882551255",
+    phoneNo: "",
     name: "Developer Testing",
     email: "test@gmail.com",
   });
@@ -59,6 +59,15 @@ const DirectDoPay = ({
     setPayData((prev) => ({
       ...prev,
       [key]: key === "amount" ? Number(value) : value,
+    }));
+  };
+
+  const changePaymentCode = (value) => {
+    setPaymentCode(value);
+    const selectedBank = banks.find((bank) => bank.value === value);
+    setPayData((prevState) => ({
+      ...prevState,
+      phoneNo: selectedBank ? selectedBank.phoneNo : "",
     }));
   };
 
@@ -103,26 +112,12 @@ const DirectDoPay = ({
         <div className="grid w-full items-center gap-4">
           <div className="flex flex-wrap w-full gap-4">
             <div className="w-full md:w-1/3 flex flex-col space-y-4">
-              {Object.entries(payData).map(([key, value]) => (
-                <div key={key} className="flex flex-col space-y-1.5">
-                  <Label>{key.charAt(0).toUpperCase() + key.slice(1)}</Label>
-                  <Input
-                    type={key === "amount" ? "number" : "text"}
-                    value={value}
-                    onChange={(e) => handleInputChange(key, e.target.value)}
-                  />
-                </div>
-              ))}
               <div className="flex flex-col space-y-1.5">
                 <Label>Access Token</Label>
                 <Input
                   value={accessToken}
                   onChange={(e) => setAccessToken(e.target.value)}
                 />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label>PayData</Label>
-                <Input value={encryptedString} readOnly />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label>Payment Token</Label>
@@ -132,10 +127,14 @@ const DirectDoPay = ({
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
+                <Label>PayData</Label>
+                <Input value={encryptedString} readOnly />
+              </div>
+              <div className="flex flex-col space-y-1.5">
                 <Label>Payment Code:</Label>
                 <Select
                   value={paymentCode}
-                  onValueChange={(value) => setPaymentCode(value)}
+                  onValueChange={(value) => changePaymentCode(value)}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Choose Payment Code" />
@@ -149,6 +148,16 @@ const DirectDoPay = ({
                   </SelectContent>
                 </Select>
               </div>
+              {Object.entries(payData).map(([key, value]) => (
+                <div key={key} className="flex flex-col space-y-1.5">
+                  <Label>{key.charAt(0).toUpperCase() + key.slice(1)}</Label>
+                  <Input
+                    type={key === "amount" ? "number" : "text"}
+                    value={value}
+                    onChange={(e) => handleInputChange(key, e.target.value)}
+                  />
+                </div>
+              ))}
             </div>
             <div className="w-full md:w-1/2">
               <div>

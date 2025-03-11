@@ -27,7 +27,7 @@ const DirectAvailableAlert = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <Info size={20} className="ml-4 text-blue-700" />
+        <Info size={20} className="ml-4 text-blue-700 animate-bounce" />
       </AlertDialogTrigger>
       <AlertDialogContent className="max-h-[90vh] max-w-[100vh] overflow-y-auto">
         <AlertDialogHeader>

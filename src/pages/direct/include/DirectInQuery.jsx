@@ -46,6 +46,7 @@ const DirectInQuery = () => {
           }
         );
         const decryptedString = decryptedBytes.toString(CryptoJS.enc.Utf8);
+        console.log(decryptedString);
         setDecodedData(decryptedString);
       } catch (error) {
         console.error("Decryption failed:", error);
@@ -113,9 +114,9 @@ const DirectInQuery = () => {
               )}
               {decodedData && (
                 <div>
-                  <Label>Decoded Access Token & Payment Token</Label>
+                  <Label>Decrypted data to check the payment status</Label>
                   <Textarea
-                    value={JSON.stringify(decodedData, null, 2)}
+                    value={decodedData}
                     readOnly
                   />
                 </div>

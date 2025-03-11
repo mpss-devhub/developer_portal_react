@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "./UserContext";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,7 +16,12 @@ import { Input } from "@/components/ui/input";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Add missing import
+import { API_URLS, baseURL } from "../enums/urls";
+import { authRepository } from "../repositories/authRepository";
+import { useDispatch } from "react-redux";
+import { login } from "../store/authSlice";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 const signUpSchema = z
   .object({
@@ -49,22 +54,32 @@ const defaultValues = {
 };
 
 function SignUp() {
-  const { user, users, getUser, getUsers, onChange, formValues } = useContext(UserContext);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [alert, setAlert] = useState(false);
+  const [alertText, setAlertText] = useState(null);
   const form = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues,
   });
 
   const onSubmit = async (data) => {
-   
-    console.log(data); 
-    try {
-      const response = await axios.post("http://127.0.0.1:8000/api/v1/users", data);
-      console.log("User registered:", response.data);
-      navigate("/");
-    } catch (error) {
-      console.error("Registration failed:", error);
+    const response = await authRepository.register(data);
+    if (response?.errors?.email) {
+      setAlert(true);
+      setAlertText(response?.errors?.email);
+    } else if (response?.status_code === 200) {
+      setAlert(false);
+      dispatch(
+        login({
+          accessToken: response.access_token,
+        })
+      );
+      localStorage.setItem("token", response.access_token);
+      navigate("/check-email");
+    } else {
+      setAlert(true);
+      setAlertText("Something went wrong");
     }
   };
 
@@ -74,6 +89,13 @@ function SignUp() {
         <h2 className="text-2xl font-semibold text-center mb-6">Sign Up</h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {alert && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Sign Up Failed!</AlertTitle>
+                <AlertDescription>{alertText}</AlertDescription>
+              </Alert>
+            )}
             <FormField
               name="name"
               render={({ field }) => (

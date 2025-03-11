@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "./UserContext";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -15,9 +15,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { authRepository } from "../repositories/authRepository";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { login } from "../store/authSlice";
+
 const loginSchema = z.object({
   email: z
     .string()
@@ -36,29 +40,30 @@ const defaultValues = {
 };
 
 export const Login = () => {
-  const navigate = useNavigate(); 
+  const dispatch = useDispatch();
+  const [alert, setAlert] = useState(false);
+  const navigate = useNavigate();
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues,
   });
 
-  const { getUsers, user, formValues, onChange } = useContext(UserContext);
-
   const onSubmit = async (data) => {
-    console.log("Form data: ", data);
-
-    // Example of calling getUsers from context (if needed)
-    await getUsers();
-
-    // If you need to send data to the API (e.g., user form data):
- 
-    const response = await axios.post("http://127.0.0.1:8000/api/v1/login", {
-      params: {
-        email: formValues.email, 
-        password: formValues.password,
-      },
-    });
-    console.log("API response:", response);
+    const response = await authRepository.login(data);
+    if (response?.status_code == "400") {
+      setAlert(true);
+    } else {
+      setAlert(false);
+      localStorage.setItem("token", response.access_token);
+      const userDetail = await authRepository.userDetail();
+      dispatch(
+        login({
+          accessToken: response.access_token,
+          userDetail: userDetail,
+        })
+      );
+      navigate("/");
+    }
   };
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
@@ -66,6 +71,13 @@ export const Login = () => {
         <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {alert && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Login Failed!</AlertTitle>
+                <AlertDescription>Invalid Credentials</AlertDescription>
+              </Alert>
+            )}
             <FormField
               name="email"
               render={({ field }) => (

@@ -93,6 +93,7 @@ const DirectToken = ({requestToken}) => {
                     type={key === "amount" ? "number" : "text"}
                     value={value}
                     onChange={(e) => handleInputChange(key, e.target.value)}
+                    readOnly={key === "merchantID"}
                   />
                 </div>
               ))}

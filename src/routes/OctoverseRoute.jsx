@@ -11,6 +11,7 @@ const Verify = lazy(() => import("../pages/Verify"));
 const FinishSignUp = lazy(() => import("../pages/FinishSignUp"));
 const Wordpress = lazy(() => import("../pages/wordpress/Wordpress"));
 const Error = lazy(() => import("../pages/error/Error"));
+const CheckEmail = lazy(() => import("../pages/CheckEmail"));
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,15 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/verify-email",
+    path: "/check-email",
+    element: (
+      <Suspense fallback={<div>Loading</div>}>
+        <CheckEmail />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/api/auth/email/verify",
     element: (
       <Suspense fallback={<div>Loading</div>}>
         <Verify />
