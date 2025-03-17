@@ -17,9 +17,11 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Suspense fallback={<div>Loading</div>}>
-        <Dashboard />
-      </Suspense>
+      <PrivateRoute>
+        <Suspense fallback={<div>Loading</div>}>
+          <Dashboard />
+        </Suspense>
+      </PrivateRoute>
     ),
   },
   {
@@ -49,9 +51,11 @@ const router = createBrowserRouter([
   {
     path: "/api/auth/email/verify",
     element: (
-      <Suspense fallback={<div>Loading</div>}>
-        <Verify />
-      </Suspense>
+      <PrivateRoute>
+        <Suspense fallback={<div>Loading</div>}>
+          <Verify />
+        </Suspense>
+      </PrivateRoute>
     ),
   },
   {
@@ -65,33 +69,41 @@ const router = createBrowserRouter([
   {
     path: "/redirect",
     element: (
-      <Suspense fallback={<div>Loading</div>}>
-        <Redirect />
-      </Suspense>
+      <PrivateRoute>
+        <Suspense fallback={<div>Loading</div>}>
+          <Redirect />
+        </Suspense>
+      </PrivateRoute>
     ),
   },
   {
     path: "/direct",
     element: (
-      <Suspense fallback={<div>Loading</div>}>
-        <Direct />
-      </Suspense>
+      <PrivateRoute>
+        <Suspense fallback={<div>Loading</div>}>
+          <Direct />
+        </Suspense>
+      </PrivateRoute>
     ),
   },
   {
     path: "/wordpress",
     element: (
-      <Suspense fallback={<div>Loading</div>}>
-        <Wordpress />
-      </Suspense>
+      <PrivateRoute>
+        <Suspense fallback={<div>Loading</div>}>
+          <Wordpress />
+        </Suspense>
+      </PrivateRoute>
     ),
   },
   {
     path: "/error_code",
     element: (
-      <Suspense fallback={<div>Loading</div>}>
-        <Error />
-      </Suspense>
+      <PrivateRoute>
+        <Suspense fallback={<div>Loading</div>}>
+          <Error />
+        </Suspense>
+      </PrivateRoute>
     ),
   },
 ]);

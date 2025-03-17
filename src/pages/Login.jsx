@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { UserContext } from "./UserContext";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -55,7 +54,7 @@ export const Login = () => {
       setAlert(true);
     } else if (response?.status_code == "403") {
       setAlert(true);
-      setBackendMessage("Please verify your email at your mailbox");
+      setBackendMessage(response?.message);
     } else {
       setAlert(false);
       localStorage.setItem("token", response.access_token);

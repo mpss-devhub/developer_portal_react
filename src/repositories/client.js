@@ -1,8 +1,8 @@
 const exec = async (endPoint, config) => {
   const token = localStorage.getItem("token");
-  console.log(token);
   const headers = {
     "content-type": "application/json",
+    "accept": "application/json",
   };
   if (token) headers.Authorization = `Bearer ${token}`;
 

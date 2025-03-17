@@ -1,6 +1,4 @@
-import React, { useContext } from "react";
-import { ProjectContext } from "../../pages/ProjectContext";
-import axios from "axios";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -23,50 +21,31 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { projectRepository } from "../../repositories/projectRepository";
 
-const ProjectCreateAlert = () => {
-  const { user } = useSelector((state) => state.auth); 
-  console.log("User:", user); 
+const projectCreateSchema = z.object({
+  pj_name: z.string().nonempty("Email is required"),
+  type: z.string().nonempty("Password is required"),
+});
+
+const defaultValues = {
+  pj_name: "",
+  type: ""
+};
+
+const ProjectCreateAlert = ({ onProjectCreated }) => {
   const navigate = useNavigate();
-
   const form = useForm({
-    defaultValues: {
-      projectName: "",
-      integrationType: "Direct API Integration",
-    },
-    mode: "onSubmit",
+    resolver: zodResolver(projectCreateSchema),
+    defaultValues,
   });
-
-  const { projects, setProjects } = useContext(ProjectContext) || {};
-
   const onSubmit = async (data) => {
-    if (!user?.id) {
-      console.error("User not authenticated");
-      return;
-    }
-
-    const formattedData = {
-      pj_name: data.projectName,
-      type: data.integrationType,
-      user_id: user.id,
-    };
-
-    console.log("Submitting Data:", formattedData);
-
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/v1/projects",
-        formattedData
-      );
-      console.log("Project created:", response.data);
-      setProjects([...projects, response.data]);
-      navigate("/");
-    } catch (e) {
-      console.error("Project creation failed", e.response?.data || e.message);
-    }
+    const response = await projectRepository.createProject(data);
+    onProjectCreated();
   };
 
   return (
@@ -88,7 +67,7 @@ const ProjectCreateAlert = () => {
           >
             <FormField
               control={form.control}
-              name="projectName"
+              name="pj_name"
               rules={{ required: "Project name is required" }}
               render={({ field }) => (
                 <FormItem>
@@ -107,7 +86,7 @@ const ProjectCreateAlert = () => {
             />
             <FormField
               control={form.control}
-              name="integrationType"
+              name="type"
               rules={{ required: "Integration type is required" }}
               render={({ field }) => (
                 <FormItem>
@@ -121,16 +100,31 @@ const ProjectCreateAlert = () => {
                       className="space-y-4"
                     >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem id="direct" value="Direct API Integration" />
-                        <FormLabel htmlFor="direct">Direct API Integration</FormLabel>
+                        <RadioGroupItem
+                          id="direct"
+                          value="Direct API Integration"
+                        />
+                        <FormLabel htmlFor="direct">
+                          Direct API Integration
+                        </FormLabel>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem id="redirect" value="Redirect API Integration" />
-                        <FormLabel htmlFor="redirect">Redirect API Integration</FormLabel>
+                        <RadioGroupItem
+                          id="redirect"
+                          value="Redirect API Integration"
+                        />
+                        <FormLabel htmlFor="redirect">
+                          Redirect API Integration
+                        </FormLabel>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem id="wordpress" value="WordPress API Integration" />
-                        <FormLabel htmlFor="wordpress">WordPress API Integration</FormLabel>
+                        <RadioGroupItem
+                          id="wordpress"
+                          value="WordPress API Integration"
+                        />
+                        <FormLabel htmlFor="wordpress">
+                          WordPress API Integration
+                        </FormLabel>
                       </div>
                     </RadioGroup>
                   </FormControl>

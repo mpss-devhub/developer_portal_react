@@ -6,7 +6,6 @@ const register = async (payload) => {
     method: "POST",
     body: JSON.stringify(payload),
   });
-  console.log(response);
   return response;
 };
 

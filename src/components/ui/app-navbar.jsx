@@ -34,16 +34,6 @@ export function AppNavbar({ isAuthenticated, onLogout }) {
                     </NavigationMenuItem>
                 </NavigationMenuList>
 
-                {/* Trial message (Hidden on mobile) */}
-                <NavigationMenuList className="md:flex justify-center flex-grow">
-                    <NavigationMenuItem>
-                        <p className="md:text-sm text-xs text-center">
-                            Your free trial account will end in <strong>14 days</strong>.{" "}
-                            
-                        </p>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
-
                 {/* Desktop Navigation */}
                 <NavigationMenuList className="hidden md:flex justify-end gap-4">
                     {items.map((item) => (

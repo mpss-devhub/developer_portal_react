@@ -11,6 +11,7 @@ class user extends Model
 {
     use HasApiTokens, HasFactory;
     use SoftDeletes;
+    
     protected $fillable = [
         'name',
         'email',
