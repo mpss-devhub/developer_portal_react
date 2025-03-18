@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Layout from "../layout/layouts";
+import Layout from "../layout/Layouts";
 import RedirectInQuery from "./include/RedirectInQuery";
 import RedirectToken from "./include/RedirectToken";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
