@@ -1,5 +1,5 @@
-import React from 'react'
-import Layout from '../layout/layouts'
+import React from 'react';
+import Layout from '../layout/Layouts';
 
 const Wordpress = () => {
     return (
