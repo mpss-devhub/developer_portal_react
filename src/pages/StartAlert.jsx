@@ -9,7 +9,7 @@ import {
     AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/Checkbox";
+import { Checkbox } from "@/components/ui/checkbox";
 const StartAlert = ({ open, onOpenChange }) => {
     const [accepted, setAccepted] = useState(false);
     return (
