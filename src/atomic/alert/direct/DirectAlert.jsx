@@ -19,7 +19,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { directInformation, environmentUrl } from '../../../pages/direct/include/array/DirectTokenArray';
-import { directWallet, directQR, directWeb } from '../../diagramText/diagramText';
+import { directWallet, directQR, directWeb } from '../../diagramText/DiagramText';
 
 const DirectAlert = () => {
     return (
