@@ -49,7 +49,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/api/auth/email/verify",
+    path: "/auth/email/verify",
     element: (
       <PrivateRoute>
         <Suspense fallback={<div>Loading</div>}>
