@@ -15,11 +15,6 @@ class EmailVerification extends Mailable
     use Queueable, SerializesModels;
 
     public $url;
-    // public function __construct($email)
-    // {
-    //     $generate = URL::temporarySignedRoute('verify-email',now()->addMinute(30),['email' => $email->email]);
-    //     $this->url = str_replace(config('app.url'), config('app.frontend_url'), $generate);
-    // }
     public function __construct($email)
     {
         $generate = URL::temporarySignedRoute(
@@ -27,10 +22,12 @@ class EmailVerification extends Mailable
             now()->addMinutes(30),
             ['email' => $email->email]
         );
+        
         $frontendUrl = rtrim(config('app.frontend_url'), '/');
         $backendUrl = rtrim(config('app.url'), '/');
         if (strpos($generate, $backendUrl) !== false) {
-            $this->url = str_replace($backendUrl, $frontendUrl, $generate);
+            // $this->url = str_replace($backendUrl, $frontendUrl, $generate);
+            $this->url = str_replace($backendUrl . '/api', $frontendUrl, $generate);  // Remove '/api' part
         } else {
             $this->url = $frontendUrl . parse_url($generate, PHP_URL_PATH) . '?' . parse_url($generate, PHP_URL_QUERY);
         }

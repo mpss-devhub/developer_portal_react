@@ -23,9 +23,7 @@ use App\Http\Controllers\Api\ProjectController;
 Route::post('login', LoginController::class);
 Route::post('logout', LogoutController::class);
 Route::post('register', RegisterController::class);
-Route::post('email/verify', [VerifyEmailController::class, 'verify'])
-    ->middleware('signed')
-    ->name('verify-email');
+
 
 // ----------------- Protected Routes -----------------
 Route::middleware('auth:sanctum')->group(function () {
