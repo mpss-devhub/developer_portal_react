@@ -25,11 +25,11 @@ class EmailVerification extends Mailable
 
         $frontendUrl = rtrim(config('app.frontend_url'), '/');
         $backendUrl = rtrim(config('app.url'), '/');
-        if (strpos($generate, $backendUrl) !== false) {
+        // if (strpos($generate, $backendUrl) !== false) {
             $this->url = str_replace($backendUrl . '/api', $frontendUrl, $generate);
-        } else {
-            $this->url = $frontendUrl . parse_url($generate, PHP_URL_PATH) . '?' . parse_url($generate, PHP_URL_QUERY);
-        }
+        // } else {
+        //     $this->url = $frontendUrl . parse_url($generate, PHP_URL_PATH) . '?' . parse_url($generate, PHP_URL_QUERY);
+        // }
     }
 
     public function envelope(): Envelope
