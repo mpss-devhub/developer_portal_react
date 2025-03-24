@@ -57,11 +57,11 @@ export const Login = () => {
       setBackendMessage(response?.message);
     } else {
       setAlert(false);
-      localStorage.setItem("token", response.access_token);
+      localStorage.setItem("token", response.data.access_token);
       const userDetail = await authRepository.userDetail();
       dispatch(
         login({
-          accessToken: response.access_token,
+          accessToken: response.data.access_token,
           userDetail: userDetail,
         })
       );

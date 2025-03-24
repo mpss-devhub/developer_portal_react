@@ -19,12 +19,6 @@ use App\Http\Controllers\Api\ProjectController;
 |
 */
 
-// ----------------- Auth Routes -----------------
-Route::post('login', LoginController::class);
-Route::post('logout', LogoutController::class);
-Route::post('register', RegisterController::class);
-
-
 // ----------------- Protected Routes -----------------
 Route::middleware('auth:sanctum')->group(function () {
 

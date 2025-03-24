@@ -21,6 +21,8 @@ class LoginController extends Controller
     {
         Log::info($request->email);
         Log::info($request->password);
+        $user01 = User::all();
+        Log::info("Email", $user01->toArray());
         $user = User::where('email', $request->email)->first();
         Log::info($user);
         if (!$user || !Hash::check($request->password, $user->password)) {
