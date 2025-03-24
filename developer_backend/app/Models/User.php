@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class user extends Model
+class User extends Model
 {
     use HasApiTokens, HasFactory;
     use SoftDeletes;
