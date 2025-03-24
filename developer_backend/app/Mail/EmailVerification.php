@@ -7,7 +7,6 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Content;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class EmailVerification extends Mailable
@@ -27,12 +26,9 @@ class EmailVerification extends Mailable
         $frontendUrl = rtrim(config('app.frontend_url'), '/');
         $backendUrl = rtrim(config('app.url'), '/');
         if (strpos($generate, $backendUrl) !== false) {
-            // $this->url = str_replace($backendUrl, $frontendUrl, $generate);
-            $this->url = str_replace($backendUrl . '/api', $frontendUrl, $generate);  // Remove '/api' part
-            Log::info($this->url);
+            $this->url = str_replace($backendUrl . '/api', $frontendUrl, $generate);
         } else {
             $this->url = $frontendUrl . parse_url($generate, PHP_URL_PATH) . '?' . parse_url($generate, PHP_URL_QUERY);
-            Log::info("KK", $this->url);
         }
     }
 
