@@ -11,25 +11,28 @@ use Illuminate\Support\Facades\URL;
 
 class EmailVerification extends Mailable
 {
-
     use Queueable, SerializesModels;
 
     public $url;
+
     public function __construct($email)
     {
+        // Generate the signed route
         $generate = URL::temporarySignedRoute(
             'verify-email',
             now()->addMinutes(30),
             ['email' => $email->email]
         );
 
+        // Retrieve frontend and backend URLs
         $frontendUrl = rtrim(config('app.frontend_url'), '/');
         $backendUrl = rtrim(config('app.url'), '/');
-        // if (strpos($generate, $backendUrl) !== false) {
-            $this->url = str_replace($backendUrl . '/api', $frontendUrl, $generate);
-        // } else {
-        //     $this->url = $frontendUrl . parse_url($generate, PHP_URL_PATH) . '?' . parse_url($generate, PHP_URL_QUERY);
-        // }
+
+        // Remove the backend URL and replace it with the frontend URL
+        $parsedUrl = parse_url($generate);
+        $query = isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '';
+
+        $this->url = $frontendUrl . '/auth/email/verify' . $query;
     }
 
     public function envelope(): Envelope
