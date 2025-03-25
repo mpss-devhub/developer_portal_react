@@ -15,7 +15,6 @@ import { Input } from "@/components/ui/input";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { useNavigate } from "react-router-dom";
-import { API_URLS, baseURL } from "../enums/urls";
 import { authRepository } from "../repositories/authRepository";
 import { useDispatch } from "react-redux";
 import { login } from "../store/authSlice";
@@ -85,6 +84,15 @@ function SignUp() {
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
+        {" "}
+        <img
+          src="/img/Octoverse Gateway logo-01.png"
+          alt="Octoverse Gateway Logo"
+          className="h-12 md:h-16 w-auto mx-auto mb-3"
+        />
+        <h3 className="text-base font-medium text-center mb-3 text-slate-500">
+          Octoverse Developer Zone
+        </h3>
         <h2 className="text-2xl font-semibold text-center mb-6">Sign Up</h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

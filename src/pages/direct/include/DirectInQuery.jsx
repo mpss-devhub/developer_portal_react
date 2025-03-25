@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import encode from "jwt-encode";
 import axios from "axios";
-import CheckPaymentStatusAlrert from "../../../atomic/alert/CheckPaymentStatusAlrert";
+import CheckPaymentStatusAlert from "../../../atomic/alert/CheckPaymentStatusAlert";
 
 const DirectInQuery = () => {
   const [payload, setPayload] = useState({
@@ -74,7 +74,7 @@ const DirectInQuery = () => {
       <CardHeader>
         <CardTitle>
           <div className="flex items-center">
-            Check Payment Status <CheckPaymentStatusAlrert />
+            Check Payment Status <CheckPaymentStatusAlert />
           </div>
         </CardTitle>
         <CardDescription>

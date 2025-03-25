@@ -27,7 +27,7 @@ import {
 } from "../../pages/direct/include/array/DirectTokenArray";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-const CheckPaymentStatusAlrert = () => {
+const CheckPaymentStatusAlert = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
@@ -114,4 +114,4 @@ const CheckPaymentStatusAlrert = () => {
   );
 };
 
-export default CheckPaymentStatusAlrert;
+export default CheckPaymentStatusAlert;

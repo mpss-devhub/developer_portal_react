@@ -35,7 +35,6 @@ const loginSchema = z.object({
 const defaultValues = {
   email: "",
   password: "",
-  terms: false,
 };
 
 export const Login = () => {
@@ -71,6 +70,14 @@ export const Login = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
+        <img
+          src="/img/Octoverse Gateway logo-01.png"
+          alt="Octoverse Gateway Logo"
+          className="h-12 md:h-16 w-auto mx-auto mb-3"
+        />
+        <h3 className="text-base font-medium text-center mb-3 text-slate-500">
+          Octoverse Developer Zone
+        </h3>
         <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -119,31 +126,12 @@ export const Login = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              name="terms"
-              render={({ field }) => (
-                <FormItem>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="terms" {...field} />
-                    <Label
-                      htmlFor="terms"
-                      className="text-gray-500 text-sm font-normal"
-                    >
-                      Accept Terms and Conditions
-                    </Label>
-                  </div>
-                  <FormMessage>
-                    {form.formState.errors.terms?.message}
-                  </FormMessage>
-                </FormItem>
-              )}
-            />
-            <a
-              href="/forgot-password"
-              className="text-sky-600 cursor-pointer text-sm"
-            >
-              Forgot password?
-            </a>
+            {/* <a
+                href="/forgot-password"
+                className="text-sky-600 cursor-pointer text-sm"
+              >
+                Forgot password?
+              </a> */}
             <Button type="submit" className="w-full">
               Log In
             </Button>

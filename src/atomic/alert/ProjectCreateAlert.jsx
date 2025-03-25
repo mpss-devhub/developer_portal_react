@@ -1,5 +1,4 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
 import {
   Form,
   FormField,
@@ -10,7 +9,6 @@ import {
 } from "@/components/ui/form";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
@@ -18,10 +16,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,24 +32,31 @@ const projectCreateSchema = z.object({
 
 const defaultValues = {
   pj_name: "",
-  type: ""
+  type: "",
 };
 
 const ProjectCreateAlert = ({ onProjectCreated }) => {
-  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(projectCreateSchema),
     defaultValues,
   });
+
   const onSubmit = async (data) => {
     const response = await projectRepository.createProject(data);
+    form.reset(defaultValues);
     onProjectCreated();
+    setOpen(false);
   };
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger>
-        <Button variant="outline" className="flex items-center gap-2">
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>
+        <Button
+          variant="outline"
+          className="flex items-center gap-2"
+          onClick={() => setOpen(true)}
+        >
           <Plus size={16} />
           Create a project
         </Button>
@@ -134,9 +139,7 @@ const ProjectCreateAlert = ({ onProjectCreated }) => {
             />
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction type="submit">
-                Create a Project
-              </AlertDialogAction>
+              <Button type="submit">Create a Project</Button>
             </AlertDialogFooter>
           </form>
         </Form>

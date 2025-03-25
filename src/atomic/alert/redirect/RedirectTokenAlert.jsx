@@ -25,6 +25,8 @@ import {
   requestParameter,
   responseParameter,
 } from "../../../pages/direct/include/array/DirectTokenArray";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const RedirectTokenAlert = () => {
   return (
@@ -36,7 +38,9 @@ const RedirectTokenAlert = () => {
         <AlertDialogHeader>
           <div className="flex items-center justify-between">
             <AlertDialogTitle>Request payment token API</AlertDialogTitle>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel className="border-none hover:bg-white">
+              <FontAwesomeIcon icon={faXmark} className="text-red-600" />
+            </AlertDialogCancel>
           </div>
         </AlertDialogHeader>
         <p className="text-sm">

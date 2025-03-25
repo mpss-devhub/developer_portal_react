@@ -15,7 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import encode from "jwt-encode";
 import axios from "axios";
 import DirectAvailableAlert from "../../../atomic/alert/direct/DirectAvailableAlert";
-import CheckPaymentStatusAlrert from "../../../atomic/alert/CheckPaymentStatusAlrert";
+import CheckPaymentStatusAlert from "../../../atomic/alert/CheckPaymentStatusAlert";
 
 const RedirectInQuery = () => {
   const [payload, setPayload] = useState({
@@ -76,7 +76,7 @@ const RedirectInQuery = () => {
         <CardTitle>
           <div className="flex items-center">
             Check Payment Status API
-            <CheckPaymentStatusAlrert />
+            <CheckPaymentStatusAlert />
           </div>
         </CardTitle>
         <CardDescription>
