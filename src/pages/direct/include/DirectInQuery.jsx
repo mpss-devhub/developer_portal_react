@@ -26,7 +26,7 @@ const DirectInQuery = () => {
   );
   const [dataKey, setDataKey] = useState("X3RZ1WKA6K84BUW2");
   const [encodedToken, setEncodedToken] = useState("");
-  const [apiResponse, setApiResponse] = useState(null);
+  const [apiResponse, setApiResponse] = useState("");
   const [decodedData, setDecodedData] = useState("");
   const encodeToken = () => {
     const token = encode(payload, secretKey);

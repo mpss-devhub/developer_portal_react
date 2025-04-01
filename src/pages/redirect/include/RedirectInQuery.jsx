@@ -27,7 +27,7 @@ const RedirectInQuery = () => {
   );
   const [dataKey, setDataKey] = useState("XBCENLKT0UC9MQKM");
   const [encodedToken, setEncodedToken] = useState("");
-  const [apiResponse, setApiResponse] = useState(null);
+  const [apiResponse, setApiResponse] = useState("");
   const [decodedData, setDecodedData] = useState("");
   const encodeToken = () => {
     const token = encode(payload, secretKey);

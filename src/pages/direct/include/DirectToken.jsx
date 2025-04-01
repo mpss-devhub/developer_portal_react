@@ -31,7 +31,7 @@ const DirectToken = ({requestToken}) => {
     "qTGInMWK8QULop8YbBlBBOLB85K6Q9vp33sRd8cufvY"
   );
   const [encodedToken, setEncodedToken] = useState("");
-  const [apiResponse, setApiResponse] = useState(null);
+  const [apiResponse, setApiResponse] = useState("");
   const [decodedUrl, setDecodedUrl] = useState("");
 
   const handleInputChange = (key, value) => {

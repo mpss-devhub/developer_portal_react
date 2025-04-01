@@ -38,7 +38,7 @@ const DirectDoPay = ({
     name: "Developer Testing",
     email: "test@gmail.com",
   });
-  const [apiResponse, setApiResponse] = useState(null);
+  const [apiResponse, setApiResponse] = useState();
 
   const encryptPayData = () => {
     const payDataString = JSON.stringify(payData);

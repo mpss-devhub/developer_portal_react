@@ -9,9 +9,9 @@ import DirectAlert from "../../atomic/alert/direct/DirectAlert";
 
 export default function Direct() {
   const [activeTab, setActiveTab] = useState("requestToken");
-  const [paymentToken, setPaymentToken] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
-  const [paymentList, setPaymentList] = useState(null);
+  const [paymentToken, setPaymentToken] = useState("");
+  const [accessToken, setAccessToken] = useState("");
+  const [paymentList, setPaymentList] = useState("");
 
   const requestToken = ({ accessToken, paymentToken }) => {
     setAccessToken(accessToken);

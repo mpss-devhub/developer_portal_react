@@ -31,7 +31,7 @@ const RedirectToken = () => {
     "JHjRmhCyMAcVGXYuuWyyoy2m_Las8orNUhum60yThQI"
   );
   const [encodedToken, setEncodedToken] = useState("");
-  const [apiResponse, setApiResponse] = useState(null);
+  const [apiResponse, setApiResponse] = useState("");
   const [decodedUrl, setDecodedUrl] = useState("");
 
   const handleInputChange = (key, value) => {
@@ -60,7 +60,7 @@ const RedirectToken = () => {
 
   const clear = () => {
     setEncodedToken("");
-    setApiResponse(null);
+    setApiResponse("");
     setDecodedUrl("");
   };
 

@@ -23,7 +23,7 @@ const DirectAvailable = ({
   const [paymentToken, setPaymentToken] = useState(initialPaymentToken);
   const [accessToken, setAccessToken] = useState(initialAccessToken);
 
-  const [apiResponse, setApiResponse] = useState(null);
+  const [apiResponse, setApiResponse] = useState();
   const makeApiRequest = async () => {
     try {
       const response = await axios.post(
