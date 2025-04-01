@@ -36,7 +36,7 @@ const DirectInQuery = () => {
   const decrypted = () => {
     if (apiResponse && apiResponse.respCode === "0000") {
       try {
-        const encryptedData = apiResponse.data; // Extract encrypted data from response
+        const encryptedData = apiResponse.data;
         const decryptedBytes = CryptoJS.AES.decrypt(
           encryptedData,
           CryptoJS.enc.Utf8.parse(dataKey),
@@ -46,7 +46,6 @@ const DirectInQuery = () => {
           }
         );
         const decryptedString = decryptedBytes.toString(CryptoJS.enc.Utf8);
-        console.log(decryptedString);
         setDecodedData(decryptedString);
       } catch (error) {
         console.error("Decryption failed:", error);
@@ -54,6 +53,13 @@ const DirectInQuery = () => {
     } else {
       console.error("Invalid API response or response code.");
     }
+  };
+
+  const handleInputChange = (key, value) => {
+    setPayload((prev) => ({
+      ...prev,
+      [key]: key === "amount" ? Number(value) : value,
+    }));
   };
 
   const makeApiRequest = async () => {
@@ -91,9 +97,10 @@ const DirectInQuery = () => {
                 <div key={key} className="flex flex-col space-y-1.5">
                   <Label>{key.charAt(0).toUpperCase() + key.slice(1)}</Label>
                   <Input
-                    type={key === "amount" ? "number" : "text"}
+                    type="text"
                     value={value}
                     onChange={(e) => handleInputChange(key, e.target.value)}
+                    readOnly={key === "merchantID"}
                   />
                 </div>
               ))}

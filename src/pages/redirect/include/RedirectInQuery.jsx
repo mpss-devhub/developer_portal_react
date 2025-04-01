@@ -34,6 +34,12 @@ const RedirectInQuery = () => {
     setEncodedToken(token);
   };
 
+  const handleInputChange = (key, value) => {
+    setPayload((prev) => ({
+      ...prev,
+      [key]: key === "amount" ? Number(value) : value,
+    }));
+  };
   const decrypted = () => {
     if (apiResponse && apiResponse.respCode === "0000") {
       try {
@@ -64,7 +70,6 @@ const RedirectInQuery = () => {
           payData: encodedToken,
         }
       );
-
       setApiResponse(response.data);
     } catch (error) {
       console.error("API request failed:", error);
@@ -96,6 +101,7 @@ const RedirectInQuery = () => {
                     type={key === "amount" ? "number" : "text"}
                     value={value}
                     onChange={(e) => handleInputChange(key, e.target.value)}
+                    readOnly={key === "merchantID"}
                   />
                 </div>
               ))}
@@ -129,8 +135,12 @@ const RedirectInQuery = () => {
       </CardContent>
       <CardFooter className="flex justify-start gap-4 md:pl-16 sm:pl-0">
         <Button onClick={encodeToken}>JWT Encode</Button>
-        <Button onClick={makeApiRequest} disabled={!encodedToken}>Send Request</Button>
-        <Button onClick={decrypted} disabled={apiResponse?.respCode !== "0000"}>AES ECB Decrypt</Button>
+        <Button onClick={makeApiRequest} disabled={!encodedToken}>
+          Send Request
+        </Button>
+        <Button onClick={decrypted} disabled={apiResponse?.respCode !== "0000"}>
+          AES ECB Decrypt
+        </Button>
       </CardFooter>
     </Card>
   );

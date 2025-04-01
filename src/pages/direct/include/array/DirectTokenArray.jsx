@@ -34,7 +34,7 @@ export const paymentInQueryRequest = [
 export const invoicesWithoutToken = [
   {
     name: "URL",
-    description: "{base_url}/auth/token",
+    description: "{base_url}/auth/paymentInQuery",
   },
   {
     name: "Method",
