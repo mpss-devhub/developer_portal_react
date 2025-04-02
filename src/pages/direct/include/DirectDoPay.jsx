@@ -176,7 +176,7 @@ const DirectDoPay = ({
         <Button onClick={encryptPayData}>AES-128 ECB Encrypt</Button>
         <Button
           onClick={makeApiRequest}
-          disabled={!accessToken || !paymentToken || !encryptedString}
+          disabled={!accessToken || !paymentToken || !encryptedString || apiResponse}
         >
           Send Request
         </Button>
