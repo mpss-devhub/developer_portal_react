@@ -19,12 +19,7 @@ class LoginController extends Controller
      */
     public function __invoke(LoginRequest $request)
     {
-        Log::info($request->email);
-        Log::info($request->password);
-        $user01 = User::all();
-        Log::info("Email", $user01->toArray());
         $user = User::where('email', $request->email)->first();
-        Log::info($user);
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status_code' => 400,
@@ -32,12 +27,12 @@ class LoginController extends Controller
             ], 400);
         }
 
-        if (empty($user->email_verified_at)) {
-            return response()->json([
-                'status_code' => 403,
-                'message' => 'Please verify your email before logging in.',
-            ], 403);
-        }
+        // if (empty($user->email_verified_at)) {
+        //     return response()->json([
+        //         'status_code' => 403,
+        //         'message' => 'Please verify your email before logging in.',
+        //     ], 403);
+        // }
 
         if ($user->email_verified_at == null || \Carbon\Carbon::parse($user->email_verified_at)->addDays(14)->lt(now())) {
             return response()->json([

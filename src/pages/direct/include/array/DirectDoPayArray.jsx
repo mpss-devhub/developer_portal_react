@@ -5,11 +5,6 @@ export const banks = [
     phoneNo: "09882551242",
   },
   {
-    name: "SAI SAI PAY",
-    value: "SAISAIPAY_PIN",
-    phoneNo: "09882551255",
-  },
-  {
     name: "MO MONEY PAY",
     value: "MOMONEY_PIN",
     phoneNo: "09882551255",
