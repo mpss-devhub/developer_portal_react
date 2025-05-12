@@ -265,11 +265,7 @@ export const environmentUrl = [
   {
     name: "UAT",
     description: "https://test.octoverse.com.mm/api/payment",
-  },
-  {
-    name: "Production",
-    description: "https://octoverse.com.mm/api/payment",
-  },
+  }
 ]
 
 export const directInformation = [

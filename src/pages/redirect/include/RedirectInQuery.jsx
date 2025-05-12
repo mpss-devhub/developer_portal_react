@@ -23,9 +23,9 @@ const RedirectInQuery = () => {
     invoiceNo: "MPSS00000001",
   });
   const [secretKey, setSecretKey] = useState(
-    "JHjRmhCyMAcVGXYuuWyyoy2m_Las8orNUhum60yThQI"
+    "q8zL1hqwOocl9tVjhYJo9RilpaDiL-c5p8Yh52nn8tE"
   );
-  const [dataKey, setDataKey] = useState("XBCENLKT0UC9MQKM");
+  const [dataKey, setDataKey] = useState("82GVFEXYVQ2AE20O");
   const [encodedToken, setEncodedToken] = useState("");
   const [apiResponse, setApiResponse] = useState("");
   const [decodedData, setDecodedData] = useState("");

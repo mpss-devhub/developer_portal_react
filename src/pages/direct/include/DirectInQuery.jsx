@@ -22,9 +22,9 @@ const DirectInQuery = () => {
     invoiceNo: "MPSS00000001",
   });
   const [secretKey, setSecretKey] = useState(
-    "qTGInMWK8QULop8YbBlBBOLB85K6Q9vp33sRd8cufvY"
+    "iS4tcxO46IUp7j2DdLMMXrisc5mxS-1S8dU9pW1umto"
   );
-  const [dataKey, setDataKey] = useState("X3RZ1WKA6K84BUW2");
+  const [dataKey, setDataKey] = useState("BWURQ0GKBJVQIRDE");
   const [encodedToken, setEncodedToken] = useState("");
   const [apiResponse, setApiResponse] = useState("");
   const [decodedData, setDecodedData] = useState("");
