@@ -275,11 +275,11 @@ export const directInformation = [
   },
   {
     name: "secretKey",
-    value: "qTGInMWK8QULop8YbBlBBOLB85K6Q9vp33sRd8cufvY"
+    value: "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   },
   {
     name: "dataKey",
-    value: "X3RZ1WKA6K84BUW2"
+    value: "XXXXXXXXXXXXXXXX"
   }
 ]
 
@@ -290,11 +290,11 @@ export const redirectInformation = [
   },
   {
     name: "secretKey",
-    value: "JHjRmhCyMAcVGXYuuWyyoy2m_Las8orNUhum60yThQI"
+    value: "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   },
   {
     name: "dataKey",
-    value: "XBCENLKT0UC9MQKM"
+    value: "XXXXXXXXXXXXXXXX"
   }
 ]
 

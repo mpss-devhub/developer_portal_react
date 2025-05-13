@@ -24,8 +24,8 @@ import {
 } from "../../../pages/direct/include/array/DirectTokenArray";
 import {
   directWallet,
-  directQR,
-  directWeb,
+  // directQR,
+  // directWeb,
 } from "../../diagramText/DiagramText";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -93,26 +93,26 @@ const DirectAlert = () => {
           </TableBody>
         </Table>
         <hr className="border border-[#ED2668]" />
-        <p className="text-base mt-4 font-medium">E-wallet/Pin workflow</p>
+        <p className="text-base mt-4 font-medium">Direct Payment Workflow</p>
         <p className="text-sm">
-          Below is the sequenece disagram that explains the e-wallet payment
+          Below is the sequenece disagram that explains the direct payment
           type integration workflow.
         </p>
         <MermaidDiagram>{directWallet}</MermaidDiagram>
-        <hr className="border border-[#ED2668]" />
+        {/* <hr className="border border-[#ED2668]" />
         <p className="text-base mt-4 font-medium">Web Payment workflow</p>
         <p className="text-sm">
           Below is the sequenece disagram that explains the web payment type
           integration workflow.
         </p>
-        <MermaidDiagram>{directWeb}</MermaidDiagram>
-        <hr className="border border-[#ED2668]" />
+        <MermaidDiagram>{directWeb}</MermaidDiagram> */}
+        {/* <hr className="border border-[#ED2668]" />
         <p className="text-base mt-4 font-medium">QR Payment workflow</p>
         <p className="text-sm">
           Below is the sequenece disagram that explains the QR payment type
           integration workflow.
         </p>
-        <MermaidDiagram>{directQR}</MermaidDiagram>
+        <MermaidDiagram>{directQR}</MermaidDiagram> */}
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
         </AlertDialogFooter>
