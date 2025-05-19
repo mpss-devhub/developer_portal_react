@@ -7,11 +7,12 @@ const SignUp = lazy(() => import("../pages/SignUp"));
 const Redirect = lazy(() => import("../pages/redirect/Redirect"));
 const Direct = lazy(() => import("../pages/direct/Direct"));
 const Dashboard = lazy(() => import("../pages/Dashboard"));
-const Verify = lazy(() => import("../pages/Verify"));
-const FinishSignUp = lazy(() => import("../pages/FinishSignUp"));
 const Wordpress = lazy(() => import("../pages/wordpress/Wordpress"));
-const Error = lazy(() => import("../pages/error/Error"));
-const CheckEmail = lazy(() => import("../pages/CheckEmail"));
+const OTP = lazy(() => import("../pages/OTP"));
+// const Error = lazy(() => import("../pages/error/Error"));
+// const CheckEmail = lazy(() => import("../pages/CheckEmail"));
+// const Verify = lazy(() => import("../pages/Verify"));
+// const FinishSignUp = lazy(() => import("../pages/FinishSignUp"));
 
 const router = createBrowserRouter([
   {
@@ -41,28 +42,10 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/check-email",
+    path: "/verify-otp",
     element: (
       <Suspense fallback={<div>Loading</div>}>
-        <CheckEmail />
-      </Suspense>
-    ),
-  },
-  {
-    path: "/auth/email/verify",
-    element: (
-      <PrivateRoute>
-        <Suspense fallback={<div>Loading</div>}>
-          <Verify />
-        </Suspense>
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: "/finishSignUp",
-    element: (
-      <Suspense fallback={<div>Loading</div>}>
-        <FinishSignUp />
+        <OTP />
       </Suspense>
     ),
   },
@@ -96,16 +79,42 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
   },
-  {
-    path: "/error_code",
-    element: (
-      <PrivateRoute>
-        <Suspense fallback={<div>Loading</div>}>
-          <Error />
-        </Suspense>
-      </PrivateRoute>
-    ),
-  },
+  // {
+  //   path: "/check-email",
+  //   element: (
+  //     <Suspense fallback={<div>Loading</div>}>
+  //       <CheckEmail />
+  //     </Suspense>
+  //   ),
+  // },
+  // {
+  //   path: "/auth/email/verify",
+  //   element: (
+  //     <PrivateRoute>
+  //       <Suspense fallback={<div>Loading</div>}>
+  //         <Verify />
+  //       </Suspense>
+  //     </PrivateRoute>
+  //   ),
+  // },
+  // {
+  //   path: "/finishSignUp",
+  //   element: (
+  //     <Suspense fallback={<div>Loading</div>}>
+  //       <FinishSignUp />
+  //     </Suspense>
+  //   ),
+  // },
+  // {
+  //   path: "/error_code",
+  //   element: (
+  //     <PrivateRoute>
+  //       <Suspense fallback={<div>Loading</div>}>
+  //         <Error />
+  //       </Suspense>
+  //     </PrivateRoute>
+  //   ),
+  // },
 ]);
 export const OctoverseRoute = () => {
   return <RouterProvider router={router} />;

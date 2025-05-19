@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { authRepository } from "../../repositories/authRepository";
 
 const PrivateRoute = ({ children }) => {
-  const user = useSelector((state) => state.auth.user);
-  console.log(user);
-  return user ? children : <Navigate to="/login" />;
+  const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const verifyUser = async () => {
+      const response = await authRepository.userDetail();
+      if (response?.message === "Unauthenticated.") {
+        setAuthenticated(false);
+      } else {
+        setAuthenticated(true);
+      }
+      setLoading(false);
+    };
+    verifyUser();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
+  return authenticated ? children : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;

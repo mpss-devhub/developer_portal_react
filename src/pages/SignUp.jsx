@@ -68,13 +68,8 @@ function SignUp() {
       setAlertText(response?.errors?.email);
     } else if (response?.status_code === 200) {
       setAlert(false);
-      dispatch(
-        login({
-          accessToken: response.access_token,
-        })
-      );
-      localStorage.setItem("token", response.access_token);
-      navigate("/check-email");
+      localStorage.setItem("email", response?.user?.email);
+      navigate("/verify-otp");
     } else {
       setAlert(true);
       setAlertText("Something went wrong");

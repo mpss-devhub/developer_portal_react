@@ -13,7 +13,6 @@ const Dashboard = () => {
     try {
       const response = await projectRepository.fetchProject();
       setProjects(response.projects);
-      console.log(projects)
     } catch (e) {
       console.error("Error fetching user projects: ", e);
       alert("Error retrieving projects.");
@@ -28,7 +27,6 @@ const Dashboard = () => {
     fetchUserProjects();
   };
 
-
   return (
     <Layout>
       <StartAlert open={showAlert} onOpenChange={setShowAlert} />
@@ -41,7 +39,7 @@ const Dashboard = () => {
             Created Projects
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.length > 0 ? (
+            {Array.isArray(projects) && projects.length > 0 ? (
               projects.map((project) => (
                 <ProjectFolder key={project.id} project={project} />
               ))

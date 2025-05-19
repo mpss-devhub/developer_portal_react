@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
-use App\Mail\EmailVerification;
+use App\Mail\OtpMail;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Http\JsonResponse;
+use Exception;
 
 class RegisterController extends Controller
 {
@@ -17,31 +20,40 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    /**
-     * Handle the incoming request.
-     */
     public function __invoke(StoreUserRequest $request): JsonResponse
     {
-        // Correct way to insert user data into individual columns (not JSON)
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password) // Hash the password for security
-        ]);
+        DB::beginTransaction();
 
-        // Generate an authentication token
-        $token = $user->createToken('auth_token')->plainTextToken;
+        try {
+            $user = User::firstOrCreate([
+                'name'     => $request->name,
+                'email'    => $request->email,
+                'phone'    => $request->phone,
+                'password' => Hash::make($request->password),
+            ]);
 
-        // Send the verification email
-        Mail::to($user->email)->send(new EmailVerification($user));
+            $email = $user->email;
 
-        return response()->json([
-            'status_code' => 200,
-            'message' => 'User registered successfully',
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'user' => $user
-        ], 200);
+            $otp = rand(100000, 999999);
+            Redis::setex("otp:$email", 300, $otp);
+
+            Mail::to($email)->send(new OtpMail($otp));
+
+            DB::commit();
+
+            return response()->json([
+                'status_code' => 200,
+                'message'     => 'User registered successfully. OTP sent to email.',
+                'user'        => $user,
+            ], 200);
+            
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status_code' => 500,
+                'message'     => 'Registration failed',
+                'error'       => $e->getMessage(),
+            ], 500);
+        }
     }
 }

@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import React, { useState } from "react";
 
-export function AppNavbar({ isAuthenticated, onLogout }) {
+export function AppNavbar({ onLogout }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const items = [
@@ -16,9 +16,12 @@ export function AppNavbar({ isAuthenticated, onLogout }) {
       url: "/",
       icon: Home,
     },
-    isAuthenticated
-      ? { title: "Login", url: "/login", icon: LogIn }
-      : { title: "Logout", url: "/login", icon: LogOut, onClick: onLogout },
+    {
+      title: "Logout",
+      url: "#",
+      icon: LogOut,
+      onClick: onLogout,
+    },
   ];
 
   return (
@@ -69,6 +72,9 @@ export function AppNavbar({ isAuthenticated, onLogout }) {
                 <NavigationMenuLink
                   href={item.url}
                   className="flex items-center gap-2 w-20"
+                  onClick={() => {
+                    if (item.onClick) item.onClick();
+                  }}
                 >
                   <item.icon size={18} className="sm:w-5" />
                   {item.title}

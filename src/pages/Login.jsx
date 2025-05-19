@@ -12,8 +12,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { authRepository } from "../repositories/authRepository";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -57,11 +55,9 @@ export const Login = () => {
     } else {
       setAlert(false);
       localStorage.setItem("token", response.data.access_token);
-      const userDetail = await authRepository.userDetail();
       dispatch(
         login({
-          accessToken: response.data.access_token,
-          userDetail: userDetail,
+          accessToken: response.data.access_token
         })
       );
       navigate("/");

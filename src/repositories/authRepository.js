@@ -1,4 +1,4 @@
-import { API_URLS, baseURL } from "../enums/urls";
+import { API_URLS } from "../enums/urls";
 import { client } from "./client";
 
 const register = async (payload) => {
@@ -17,6 +17,14 @@ const login = async (payload) => {
   return response;
 };
 
+const verifyOtp = async (payload) => {
+  const response = await client.exec(`${API_URLS.AUTH}` + "/verify", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+  return response;
+};
+
 const userDetail = async () => {
   const response = await client.exec(`${API_URLS.USER}`);
   return response;
@@ -24,7 +32,7 @@ const userDetail = async () => {
 
 const emailVerify = async (query) => {
   const response = await client.exec(
-    `${API_URLS.AUTH}` + "/email" + "/verify" + `?${query}`, // Query params added here
+    `${API_URLS.AUTH}` + "/email" + "/verify" + `?${query}`,
     {
       method: "POST",
     }
@@ -32,4 +40,10 @@ const emailVerify = async (query) => {
   return response;
 };
 
-export const authRepository = { register, login, userDetail, emailVerify };
+export const authRepository = {
+  register,
+  login,
+  userDetail,
+  emailVerify,
+  verifyOtp,
+};
