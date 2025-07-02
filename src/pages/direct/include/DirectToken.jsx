@@ -20,7 +20,7 @@ import DirectTokenAlert from "../../../atomic/alert/direct/DirectTokenAlert";
 const DirectToken = ({requestToken}) => {
   const [payload, setPayload] = useState({
     merchantID: "MPSSD0000000084",
-    invoiceNo: "MPSS00000001",
+    invoiceNo: "00102",
     amount: 1500,
     currencyCode: "MMK",
     frontendUrl: "https://mpss.com.mm",
@@ -28,7 +28,7 @@ const DirectToken = ({requestToken}) => {
   });
 
   const [secretKey, setSecretKey] = useState(
-    "iS4tcxO46IUp7j2DdLMMXrisc5mxS-1S8dU9pW1umto"
+    "qTGInMWK8QULop8YbBlBBOLB85K6Q9vp33sRd8cufvY"
   );
   const [encodedToken, setEncodedToken] = useState("");
   const [apiResponse, setApiResponse] = useState("");

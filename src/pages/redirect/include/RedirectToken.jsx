@@ -28,7 +28,7 @@ const RedirectToken = () => {
   });
 
   const [secretKey, setSecretKey] = useState(
-    "q8zL1hqwOocl9tVjhYJo9RilpaDiL-c5p8Yh52nn8tE"
+    "JHjRmhCyMAcVGXYuuWyyoy2m_Las8orNUhum60yThQI"
   );
   const [encodedToken, setEncodedToken] = useState("");
   const [apiResponse, setApiResponse] = useState("");

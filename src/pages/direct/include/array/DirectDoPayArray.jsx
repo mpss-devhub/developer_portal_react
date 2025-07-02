@@ -1,5 +1,15 @@
 export const banks = [
   {
+    name: "ABANK PAY",
+    value: "ABANKPAY_PIN",
+    phoneNo: "09882551255",
+  },
+  {
+    name: "ABANK BANK",
+    value: "ABANKPAY_QR",
+    phoneNo: "09882551255",
+  },
+  {
     name: "UAB PAY",
     value: "UABPAY_PIN",
     phoneNo: "09882551242",
