@@ -32,7 +32,7 @@ const DirectDoPay = ({
   const [accessToken, setAccessToken] = useState(initialAccessToken);
   const [paymentCode, setPaymentCode] = useState("");
   const [encryptedString, setEncryptedString] = useState("");
-  const [dataKey, setDataKey] = useState("X3RZ1WKA6K84BUW2");
+  const [dataKey, setDataKey] = useState("BWURQ0GKBJVQIRDE");
   const [payData, setPayData] = useState({
     phoneNo: "",
     name: "Developer Testing",

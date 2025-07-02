@@ -28,7 +28,7 @@ const DirectToken = ({requestToken}) => {
   });
 
   const [secretKey, setSecretKey] = useState(
-    "qTGInMWK8QULop8YbBlBBOLB85K6Q9vp33sRd8cufvY"
+    "iS4tcxO46IUp7j2DdLMMXrisc5mxS-1S8dU9pW1umto"
   );
   const [encodedToken, setEncodedToken] = useState("");
   const [apiResponse, setApiResponse] = useState("");
