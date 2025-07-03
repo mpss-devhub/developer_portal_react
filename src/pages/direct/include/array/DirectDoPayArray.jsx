@@ -5,7 +5,7 @@ export const banks = [
     phoneNo: "09882551242",
   },
   {
-    name: "ABANK BANK",
+    name: "ABANK QR",
     value: "ABANKPAY_QR",
     phoneNo: "09882551242",
   },
